@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mageros Hizmet Tablosu</title>
+    
+    <!-- 1. Tailwind CSS (Stiller için) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 2. Fontlar -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        
+        /* WordPress çakışmalarını önlemek için kapsayıcı stiller */
+        #mageros-pricing-root {
+            font-family: 'Inter', sans-serif;
+            background-color: #000000;
+            color: white;
+            width: 100%;
+            display: block;
+        }
+        
+        /* Yatay kaydırma çubuğunu gizle (Kozmetik) */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+
+    <!-- 3. React ve Babel (Tarayıcıda çalışması için) -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+
+    <!-- BU DIV'İ WORDPRESS'E YAPIŞTIRIN -->
+    <div id="mageros-pricing-root"></div>
+
+    <!-- BU SCRIPT KODUNU WORDPRESS'E YAPIŞTIRIN -->
+    <script type="text/babel">
+        const { useState } = React;
+
+        // --- VERİLER (CONSTANTS) ---
+        const pricingData = [
+            {
+                id: 'web-tasarim',
+                label: 'Web Tasarım',
+                packages: [
+                { name: 'Kurumsal', price: '₺15.000', period: '/tek sefer', isPopular: false },
+                { name: 'Profesyonel', price: '₺25.000', period: '/tek sefer', isPopular: true, highlightColor: 'blue' },
+                { name: 'Premium & Özel', price: '₺45.000', period: '/tek sefer', isPopular: false },
+                ],
+                features: [
+                { name: 'Domain (Alan Adı) & Hosting', values: ['1 Yıl Hediye', '1 Yıl Hediye', '2 Yıl Hediye (VPS)'] },
+                { name: 'Arayüz Tasarımı (UI/UX)', values: ['Modern Şablon', 'Özel Tasarım', 'Kişiye Özel Premium UI'] },
+                { name: 'Mobil Uyumluluk (Responsive)', values: [true, true, true] },
+                { name: 'Yönetim Paneli (CMS)', values: ['Standart', 'Gelişmiş', 'Özel Yazılım Panel'] },
+                { name: 'Sayfa Sayısı', values: ['5 Sayfaya Kadar', '15 Sayfaya Kadar', 'Sınırsız'] },
+                { name: 'SEO Altyapı Kurulumu', values: ['Temel', 'Kapsamlı', 'İleri Düzey + Schema'] },
+                { name: 'Kurumsal E-Posta Kurulumu', values: ['5 Adet', '20 Adet', 'Sınırsız'] },
+                { name: 'İletişim & WhatsApp Modülü', values: [true, true, true] },
+                { name: 'Çoklu Dil Desteği', values: [false, '2 Dil', 'Sınırsız Dil'] },
+                { name: 'Blog / Haberler Modülü', values: [false, true, true] },
+                { name: 'Google Haritalar Kaydı', values: [true, true, true] },
+                { name: 'Teknik Destek & Bakım', values: ['1 Ay', '6 Ay', '1 Yıl VIP'] },
+                ]
+            },
+            {
+                id: 'e-ticaret',
+                label: 'E-Ticaret',
+                packages: [
+                { name: 'Girişimci', price: '₺20.000', period: '/yıllık', isPopular: false },
+                { name: 'Büyüme', price: '₺35.000', period: '/yıllık', isPopular: true, highlightColor: 'purple' },
+                { name: 'Global Marka', price: '₺60.000', period: '/yıllık', isPopular: false },
+                ],
+                features: [
+                { name: 'Altyapı & Kurulum', values: ['Hazır Sistem', 'WooCommerce / Shopify', 'Özel / T-Soft / İkas'] },
+                { name: 'Tasarım Özelleştirme', values: ['Logo & Renkler', 'Kategori & Bannerlar', 'Full Konsept Tasarım'] },
+                { name: 'Sanal POS (Ödeme) Entegrasyonu', values: ['iyzico/PayTR', 'Tüm Bankalar', 'Global (Stripe vb.)'] },
+                { name: 'Kargo & Lojistik Entegrasyonu', values: [true, true, true] },
+                { name: 'Ürün Yükleme Desteği', values: ['50 Ürün', '250 Ürün', 'Sınırsız / XML'] },
+                { name: 'Pazaryeri Entegrasyonu (Trendyol vb.)', values: [false, '2 Mağaza', 'Tüm Pazaryerleri'] },
+                { name: 'Stok & Sipariş Yönetimi', values: ['Manuel', 'Otomatik Panel', 'Gelişmiş ERP Bağlantısı'] },
+                { name: 'Hediye Çeki & Promosyon Modülü', values: [true, true, true] },
+                { name: 'Üyelik & Müşteri Paneli', values: [true, true, true] },
+                { name: 'E-Fatura Entegrasyonu', values: [false, true, true] },
+                { name: 'Sosyal Medya Mağaza (Insta Shop)', values: [false, true, true] },
+                { name: 'Yönetim Paneli Eğitimi', values: ['Video Eğitim', 'Online Birebir', 'Yerinde Eğitim'] },
+                ]
+            },
+            {
+                id: 'e-ihracat',
+                label: 'E-İhracat',
+                packages: [
+                { name: 'Mikro İhracat', price: '€1.500', period: '/proje', isPopular: false },
+                { name: 'Global Oyuncu', price: '€3.000', period: '/proje', isPopular: true, highlightColor: 'pink' },
+                { name: 'Uluslararası Marka', price: '€5.000', period: '/proje', isPopular: false },
+                ],
+                features: [
+                { name: 'Hedef Pazar Analizi', values: ['Bölgesel', 'Kıtasal', 'Global'] },
+                { name: 'Yurtdışı Pazaryeri Kurulumu (Amazon/Etsy)', values: ['1 Platform', '3 Platform', '5 Platform + FBA'] },
+                { name: 'Gümrük & Lojistik Danışmanlığı', values: ['Temel Bilgi', 'Süreç Yönetimi', 'Birebir Operasyon'] },
+                { name: 'Çoklu Para Birimi & Dil Ayarları', values: [true, true, true] },
+                { name: 'Yurtdışı Ödeme Sistemleri (PayPal/Stripe)', values: ['Danışmanlık', 'Kurulum Desteği', 'Tam Entegrasyon'] },
+                { name: 'Global Dijital Pazarlama Stratejisi', values: [false, 'Google Ads Global', '360° Global Ads'] },
+                { name: 'Devlet Teşvikleri Danışmanlığı', values: [false, true, true] },
+                { name: 'Yurtdışı Şirketleşme Rehberliği', values: [false, false, true] },
+                ]
+            },
+            {
+                id: 'dijital-pazarlama',
+                label: 'Dijital Pazarlama',
+                packages: [
+                { name: 'Start', price: '₺10.000', period: '/ay', isPopular: false },
+                { name: 'Scale-Up', price: '₺18.000', period: '/ay', isPopular: true, highlightColor: 'blue' },
+                { name: 'Dominance', price: '₺30.000', period: '/ay', isPopular: false },
+                ],
+                features: [
+                { name: 'Sosyal Medya Yönetimi', values: ['2 Platform', '3 Platform', '5 Platform'] },
+                { name: 'Aylık İçerik Planı', values: ['8 Post', '12 Post + 8 Story', '20 Post + 20 Story'] },
+                { name: 'Reels / Video Kurgu', values: [false, '4 Reels', '8 Reels + Prodüksiyon'] },
+                { name: 'Meta Ads (Facebook/Instagram) Yönetimi', values: ['Bütçe Planlama', 'Gelişmiş Hedefleme', 'Dönüşüm Odaklı (ROAS)'] },
+                { name: 'Google Ads (Arama/Görüntülü) Yönetimi', values: [false, true, true] },
+                { name: 'Remarketing (Yeniden Pazarlama)', values: [false, true, true] },
+                { name: 'Influencer Marketing Kurgusu', values: [false, false, true] },
+                { name: 'Aylık Performans Raporu', values: ['Özet', 'Detaylı', 'Toplantı ile Sunum'] },
+                ]
+            },
+            {
+                id: 'seo',
+                label: 'S.E.O',
+                packages: [
+                { name: 'Yerel SEO', price: '₺8.000', period: '/ay', isPopular: false },
+                { name: 'Ulusal SEO', price: '₺14.000', period: '/ay', isPopular: true, highlightColor: 'purple' },
+                { name: 'Kurumsal SEO', price: '₺25.000', period: '/ay', isPopular: false },
+                ],
+                features: [
+                { name: 'Site İçi (On-Page) Optimizasyon', values: [true, true, true] },
+                { name: 'Teknik SEO & Hız Optimizasyonu', values: ['Temel', 'Gelişmiş', 'Tam Kapsamlı'] },
+                { name: 'Anahtar Kelime Araştırması', values: ['20 Kelime', '100 Kelime', 'Sınırsız'] },
+                { name: 'İçerik & Blog Stratejisi', values: ['2 Makale/Ay', '4 Makale/Ay', '8 Makale + PR'] },
+                { name: 'Backlink (Off-Page) Çalışmaları', values: ['Başlangıç', 'Otoriter Kaynaklar', 'Premium Haber Siteleri'] },
+                { name: 'Google Haritalar (Local SEO)', values: [true, true, true] },
+                { name: 'Rakip & Sektör Analizi', values: [false, true, true] },
+                { name: 'Haftalık Sıralama Takibi', values: [false, true, true] },
+                { name: 'Google Search Console Yönetimi', values: [true, true, true] },
+                ]
+            },
+            {
+                id: 'danismanlik',
+                label: 'Danışmanlık',
+                packages: [
+                { name: 'Saatlik', price: '₺2.500', period: '/saat', isPopular: false },
+                { name: 'Aylık Mentörlük', price: '₺15.000', period: '/ay', isPopular: true, highlightColor: 'pink' },
+                { name: 'Proje Bazlı', price: 'Teklif Alın', period: '/proje', isPopular: false },
+                ],
+                features: [
+                { name: 'Mevcut Durum Analizi (Check-up)', values: [true, true, true] },
+                { name: 'Dijital Dönüşüm Stratejisi', values: [false, true, true] },
+                { name: 'Marka Konumlandırma', values: ['Yüzeysel', 'Detaylı', 'Full Strateji'] },
+                { name: 'Bütçe & Kaynak Yönetimi', values: [false, true, true] },
+                { name: 'Ekip Kurulumu & Eğitimi', values: [false, 'Yönlendirme', 'İşe Alım Desteği'] },
+                { name: 'Kriz Yönetimi Danışmanlığı', values: [false, true, true] },
+                { name: 'Haftalık İlerleme Toplantıları', values: [false, 'Online', 'Online/Yüz Yüze'] },
+                ]
+            },
+            {
+                id: 'mageros-akademi',
+                label: 'Mageros Akademi',
+                packages: [
+                { name: 'Video Eğitim', price: '₺1.500', period: '/paket', isPopular: false },
+                { name: 'Bootcamp', price: '₺7.500', period: '/6 hafta', isPopular: true, highlightColor: 'blue' },
+                { name: 'Birebir Eğitim', price: '₺15.000', period: '/kişi', isPopular: false },
+                ],
+                features: [
+                { name: 'Eğitim Kapsamı', values: ['Temel Seviye', 'İleri Seviye', 'Masterclass'] },
+                { name: 'E-Ticaret & Pazarlama Dersleri', values: ['10 Saat Video', '30 Saat Canlı', '40 Saat Özel'] },
+                { name: 'Uygulamalı Atölye Çalışmaları', values: [false, true, true] },
+                { name: 'Soru-Cevap & Mentorluk', values: ['Topluluk Grubu', 'Haftalık Canlı', '7/24 Birebir'] },
+                { name: 'Doküman & Kaynak Kütüphanesi', values: [true, true, true] },
+                { name: 'Bitirme Sertifikası', values: ['Dijital', 'Basılı & Dijital', 'Uluslararası Geçerli'] },
+                { name: 'Kariyer & Staj Desteği', values: [false, true, true] },
+                ]
+            },
+            {
+                id: 'kurumsal-kimlik',
+                label: 'Kurumsal Kimlik',
+                packages: [
+                { name: 'Startup', price: '₺10.000', period: '/tek sefer', isPopular: false },
+                { name: 'Prestij', price: '₺20.000', period: '/tek sefer', isPopular: true, highlightColor: 'purple' },
+                { name: 'Marka İnşası', price: '₺40.000', period: '/tek sefer', isPopular: false },
+                ],
+                features: [
+                { name: 'Logo Tasarımı', values: ['2 Alternatif', '3 Alternatif', '5 Alternatif'] },
+                { name: 'Renk Paleti & Tipografi', values: [true, true, true] },
+                { name: 'Kurumsal Evraklar (Kartvizit, Antetli vb.)', values: ['3 Parça', '5 Parça', 'Tüm Set'] },
+                { name: 'Marka Rehberi (Brandbook)', values: [false, 'Mini Rehber', 'Kapsamlı Rehber'] },
+                { name: 'Sosyal Medya Kit (Profil & Kapak)', values: [false, true, true] },
+                { name: 'Sunum Şablonu Tasarımı', values: [false, true, true] },
+                { name: 'Promosyon Ürün Tasarımları', values: [false, false, true] },
+                { name: 'Revize Hakkı', values: ['2 Tur', '3 Tur', 'Sınırsız'] },
+                ]
+            },
+            {
+                id: 'mobil-uygulama',
+                label: 'Mobil Uygulama',
+                packages: [
+                { name: 'MVP', price: '₺60.000', period: '/proje', isPopular: false },
+                { name: 'Business', price: '₺120.000', period: '/proje', isPopular: true, highlightColor: 'pink' },
+                { name: 'Enterprise', price: 'Teklif Alın', period: '/proje', isPopular: false },
+                ],
+                features: [
+                { name: 'Platform', values: ['iOS veya Android', 'Hybrid (Flutter/RN)', 'Native (Swift/Kotlin)'] },
+                { name: 'UI/UX Tasarımı', values: ['Standart', 'Özel Tasarım', 'Premium UX Araştırmalı'] },
+                { name: 'Yönetim Paneli (Admin)', values: [true, true, true] },
+                { name: 'API Entegrasyonları', values: ['Temel', 'Gelişmiş', 'Tam Kapsamlı'] },
+                { name: 'Bildirim Sistemi (Push Notification)', values: [true, true, true] },
+                { name: 'Ödeme Altyapısı', values: [false, true, true] },
+                { name: 'Mağaza Yayınlama (Store)', values: ['Danışmanlık', 'Biz Yayınlıyoruz', 'Biz Yayınlıyoruz'] },
+                { name: 'Bakım ve Hata Düzeltme', values: ['1 Ay', '6 Ay', '1 Yıl'] },
+                ]
+            },
+            {
+                id: 'fotograf',
+                label: 'Fotoğraf',
+                packages: [
+                { name: 'Ürün Çekimi', price: '₺5.000', period: '/gün', isPopular: false },
+                { name: 'Konsept', price: '₺12.000', period: '/gün', isPopular: true, highlightColor: 'blue' },
+                { name: 'Katalog', price: '₺25.000', period: '/gün', isPopular: false },
+                ],
+                features: [
+                { name: 'Çekim Türü', values: ['Beyaz Fon (E-Ticaret)', 'Styling & Konsept', 'Mekan & Model'] },
+                { name: 'Teslim Edilen Kare', values: ['20 Kare', '50 Kare', '100+ Kare'] },
+                { name: 'Retouch & Düzenleme', values: [true, true, true] },
+                { name: 'Model & Manken Kullanımı', values: [false, 'Opsiyonel', 'Dahil'] },
+                { name: 'Stüdyo / Mekan', values: ['Stüdyo', 'Stüdyo veya Dış', 'Özel Lokasyon'] },
+                { name: 'Video Backstage (Kamera Arkası)', values: [false, true, true] },
+                { name: 'Sosyal Medya Boyutlandırma', values: [false, true, true] },
+                ]
+            },
+            {
+                id: 'produksiyon',
+                label: 'Prodüksiyon',
+                packages: [
+                { name: 'Reels Paket', price: '₺12.000', period: '/proje', isPopular: false },
+                { name: 'Tanıtım Filmi', price: '₺30.000', period: '/proje', isPopular: true, highlightColor: 'purple' },
+                { name: 'Reklam Filmi', price: '₺75.000', period: '/proje', isPopular: false },
+                ],
+                features: [
+                { name: 'Çekim Süresi', values: ['Yarım Gün', '1 Tam Gün', '2+ Gün'] },
+                { name: 'Ekipman Kalitesi', values: ['Sony A7SIII / FX3', 'Red Komodo / FX6', 'Arri Alexa Mini'] },
+                { name: 'Senaryo & Metin Yazımı', values: [false, true, true] },
+                { name: 'Kurgu & Montaj (Post)', values: [true, true, true] },
+                { name: 'Ses Tasarımı & Mix', values: [false, true, true] },
+                { name: 'Drone Çekimi', values: [false, 'Opsiyonel', 'Dahil'] },
+                { name: 'Format', values: ['Dikey (9:16)', 'Yatay (16:9)', 'Tüm Formatlar'] },
+                { name: 'Revize Hakkı', values: ['1 Tur', '2 Tur', 'Sınırsız'] },
+                ]
+            }
+        ];
+
+        // --- COMPONENTS ---
+
+        const CheckIcon = () => (
+            <div className="flex justify-center items-center w-6 h-6 rounded-full bg-green-400/20 mx-auto">
+                <svg className="w-4 h-4 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+            </div>
+        );
+
+        const DashIcon = () => (
+            <div className="flex justify-center items-center mx-auto">
+                <div className="w-4 h-1 bg-gray-700 rounded-full"></div>
+            </div>
+        );
+
+        const ServiceTabs = ({ categories, activeId, onChange }) => {
+            return (
+                <div className="flex justify-start md:justify-center overflow-x-auto gap-4 px-4 pb-2 no-scrollbar">
+                {categories.map((cat) => {
+                    const isActive = activeId === cat.id;
+                    return (
+                    <button
+                        key={cat.id}
+                        onClick={() => onChange(cat.id)}
+                        className={`
+                        relative px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 whitespace-nowrap border
+                        ${isActive 
+                            ? 'bg-purple-900/40 border-purple-500 text-white shadow-[0_0_15px_rgba(168,85,247,0.5)]' 
+                            : 'bg-transparent border-gray-800 text-gray-400 hover:border-gray-600 hover:text-white'
+                        }
+                        `}
+                    >
+                        {cat.label}
+                    </button>
+                    );
+                })}
+                </div>
+            );
+        };
+
+        const PricingTable = ({ data }) => {
+            return (
+                <div className="relative w-full overflow-hidden rounded-3xl border border-gray-900 bg-[#050505] shadow-2xl">
+                
+                {/* Table Header / Grid Definition */}
+                <div className="grid grid-cols-4 min-w-[800px] overflow-x-auto">
+                    
+                    {/* Top Left Empty Corner (or Label) */}
+                    <div className="p-6 md:p-8 flex items-end border-b border-r border-gray-900/50 bg-[#0a0a0a]">
+                    <span className="text-gray-400 font-medium text-sm uppercase tracking-wider">
+                        {data.label} Özellikleri
+                    </span>
+                    </div>
+
+                    {/* Package Headers */}
+                    {data.packages.map((pkg, index) => {
+                    const isHighlight = pkg.isPopular;
+                    const highlightClass = isHighlight 
+                        ? 'relative bg-gradient-to-b from-purple-900/20 to-transparent' 
+                        : '';
+                        
+                    const borderClass = index === data.packages.length - 1 ? '' : 'border-r border-gray-900/50';
+
+                    return (
+                        <div key={index} className={`p-6 md:p-8 text-center border-b border-gray-900/50 flex flex-col items-center justify-between gap-4 ${highlightClass} ${borderClass}`}>
+                        
+                        {isHighlight && (
+                            <div className="absolute -top-px left-0 right-0 h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500 shadow-[0_0_20px_rgba(168,85,247,0.8)]"></div>
+                        )}
+                        
+                        {isHighlight && (
+                            <span className="mb-2 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white bg-purple-600 rounded-full shadow-lg shadow-purple-900/50">
+                            En Çok Tercih Edilen
+                            </span>
+                        )}
+
+                        <div className="space-y-2">
+                            <h3 className={`text-xl font-bold ${isHighlight ? 'text-white' : 'text-gray-300'}`}>
+                            {pkg.name}
+                            </h3>
+                            <div className="flex flex-col items-center">
+                            <span className="text-3xl font-bold text-white tracking-tight">{pkg.price}</span>
+                            <span className="text-xs text-gray-500">{pkg.period}</span>
+                            </div>
+                        </div>
+
+                        <button 
+                            className={`
+                            w-full py-3 px-4 rounded-xl text-sm font-semibold transition-all duration-300 mt-4 cursor-pointer
+                            ${isHighlight 
+                                ? 'bg-white text-black hover:bg-gray-200 hover:scale-105 shadow-[0_0_15px_rgba(255,255,255,0.3)]' 
+                                : 'border border-gray-700 text-white hover:border-gray-500 hover:bg-gray-900'
+                            }
+                            `}
+                        >
+                            Bilgi Alın
+                        </button>
+                        </div>
+                    );
+                    })}
+
+                    {/* Features Rows */}
+                    {data.features.map((feature, fIndex) => (
+                    <React.Fragment key={fIndex}>
+                        {/* Feature Name */}
+                        <div className="p-4 md:p-6 flex items-center border-b border-r border-gray-900/50 bg-[#0a0a0a] hover:bg-[#0f0f0f] transition-colors">
+                        <span className="text-gray-300 font-medium text-sm md:text-base">
+                            {feature.name}
+                        </span>
+                        </div>
+
+                        {/* Feature Values */}
+                        {feature.values.map((val, vIndex) => {
+                        const isHighlight = data.packages[vIndex].isPopular;
+                        const borderClass = vIndex === data.packages.length - 1 ? '' : 'border-r border-gray-900/50';
+                        const bgClass = isHighlight ? 'bg-purple-900/5' : '';
+
+                        return (
+                            <div 
+                            key={vIndex} 
+                            className={`p-4 md:p-6 flex items-center justify-center border-b border-gray-900/50 text-center ${borderClass} ${bgClass}`}
+                            >
+                            {typeof val === 'boolean' ? (
+                                val ? <CheckIcon /> : <DashIcon />
+                            ) : (
+                                <span className={`text-sm font-medium ${isHighlight ? 'text-white' : 'text-gray-400'}`}>
+                                {val}
+                                </span>
+                            )}
+                            </div>
+                        );
+                        })}
+                    </React.Fragment>
+                    ))}
+
+                    {/* Empty Footer Row for aesthetic closure */}
+                    <div className="bg-[#0a0a0a] border-r border-gray-900/50 h-4"></div>
+                    {data.packages.map((pkg, i) => (
+                    <div key={i} className={`h-4 ${pkg.isPopular ? 'bg-purple-900/5' : ''} ${i !== data.packages.length - 1 ? 'border-r border-gray-900/50' : ''}`}></div>
+                    ))}
+
+                </div>
+
+                {/* Mobile Scroll Hint */}
+                <div className="md:hidden absolute bottom-4 left-0 right-0 text-center pointer-events-none">
+                    <span className="text-xs text-gray-500 bg-black/80 px-3 py-1 rounded-full border border-gray-800">
+                    Detaylar için sağa kaydırın →
+                    </span>
+                </div>
+                </div>
+            );
+        };
+
+        const App = () => {
+            const [activeCategory, setActiveCategory] = useState(pricingData[0].id);
+            const currentCategoryData = pricingData.find((d) => d.id === activeCategory);
+
+            return (
+                <div className="min-h-screen w-full bg-black text-white selection:bg-purple-500 selection:text-white pb-20 p-2 md:p-0">
+                
+                {/* Header Section */}
+                <header className="pt-16 pb-10 px-4 text-center max-w-7xl mx-auto">
+                    <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white via-purple-200 to-white">
+                    Hizmet Paketlerimiz
+                    </h1>
+                    <p className="text-gray-400 max-w-2xl mx-auto text-lg">
+                    Dijital dünyada markanızı büyütmek için ihtiyacınız olan tüm çözümler tek bir noktada.
+                    </p>
+                </header>
+
+                {/* Tabs for Services */}
+                <div className="sticky top-0 z-40 bg-black/80 backdrop-blur-md py-4 border-b border-white/10 mb-8">
+                    <ServiceTabs 
+                    categories={pricingData} 
+                    activeId={activeCategory} 
+                    onChange={setActiveCategory} 
+                    />
+                </div>
+
+                {/* Main Pricing Table */}
+                <main className="max-w-7xl mx-auto px-0 md:px-6">
+                    {currentCategoryData ? (
+                    <PricingTable data={currentCategoryData} />
+                    ) : (
+                    <div className="text-center py-20 text-gray-500">Kategori bulunamadı.</div>
+                    )}
+                </main>
+
+                </div>
+            );
+        };
+
+        // --- RENDER ---
+        const root = ReactDOM.createRoot(document.getElementById('mageros-pricing-root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>

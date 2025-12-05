@@ -1,0 +1,194 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<!-- Tailwind CSS (Tasarım için gereklidir) -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- Font Ailesi -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+    /* WordPress içinde yazı tipini ve temel renkleri zorla uygula */
+    .mageros-table-container {
+        font-family: 'Inter', sans-serif;
+        background-color: #000000;
+        color: white;
+        padding: 20px;
+        border-radius: 24px;
+    }
+    /* Kaydırma çubuğunu gizle (İsteğe bağlı) */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+</style>
+</head>
+<body>
+
+<!-- BAŞLANGIÇ: TABLO KODU (Burasını kopyalayıp WordPress'e yapıştırın) -->
+
+<div class="mageros-table-container">
+
+    <!-- Tablo Dış Çerçeve -->
+    <div class="relative w-full overflow-hidden rounded-3xl border border-gray-900 bg-[#050505] shadow-2xl">
+      
+      <!-- Yatay Kaydırma Alanı (Mobilde sağa kayar) -->
+      <div class="overflow-x-auto no-scrollbar">
+        
+        <!-- Izgara (Grid) Yapısı: 4 Sütun (1 Başlık + 3 Paket) -->
+        <div class="grid grid-cols-4 min-w-[900px]">
+            
+            <!-- 1. SATIR: PAKET İSİMLERİ VE FİYATLAR -->
+            
+            <!-- Sol Üst Köşe (Boş veya Başlık) -->
+            <div class="p-6 flex items-end border-b border-r border-gray-900/50 bg-[#0a0a0a]">
+                <span class="text-gray-400 font-medium text-sm uppercase tracking-wider">
+                    <!-- BURAYA HİZMET KATEGORİSİNİ YAZIN (Örn: E-Ticaret Özellikleri) -->
+                    E-TİCARET ÖZELLİKLERİ
+                </span>
+            </div>
+
+            <!-- 1. PAKET (Standart) -->
+            <div class="p-6 text-center border-b border-r border-gray-900/50 flex flex-col items-center justify-between gap-4">
+                <div class="space-y-2">
+                    <!-- Paket Adı -->
+                    <h3 class="text-xl font-bold text-gray-300">Girişimci</h3>
+                    <!-- Fiyat -->
+                    <div class="flex flex-col items-center">
+                        <span class="text-3xl font-bold text-white tracking-tight">₺20.000</span>
+                        <span class="text-xs text-gray-500">/yıllık</span>
+                    </div>
+                </div>
+                <!-- Buton -->
+                <a href="#" class="w-full py-3 px-4 rounded-xl text-sm font-semibold border border-gray-700 text-white hover:bg-gray-900 transition-colors block text-center no-underline">
+                    Bilgi Alın
+                </a>
+            </div>
+
+            <!-- 2. PAKET (POPÜLER - Öne Çıkan) -->
+            <!-- Not: Bu kutunun arkasında hafif mor ışık var (bg-gradient...) -->
+            <div class="p-6 text-center border-b border-r border-gray-900/50 flex flex-col items-center justify-between gap-4 relative bg-gradient-to-b from-purple-900/20 to-transparent">
+                
+                <!-- Üst Mor Çizgi -->
+                <div class="absolute -top-px left-0 right-0 h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500 shadow-[0_0_20px_rgba(168,85,247,0.8)]"></div>
+                
+                <!-- "En Çok Tercih Edilen" Etiketi -->
+                <span class="mb-2 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white bg-purple-600 rounded-full shadow-lg shadow-purple-900/50">
+                    En Çok Tercih Edilen
+                </span>
+
+                <div class="space-y-2">
+                    <!-- Paket Adı -->
+                    <h3 class="text-xl font-bold text-white">Büyüme</h3>
+                    <!-- Fiyat -->
+                    <div class="flex flex-col items-center">
+                        <span class="text-3xl font-bold text-white tracking-tight">₺35.000</span>
+                        <span class="text-xs text-gray-500">/yıllık</span>
+                    </div>
+                </div>
+                <!-- Buton (Beyaz) -->
+                <a href="#" class="w-full py-3 px-4 rounded-xl text-sm font-semibold bg-white text-black hover:bg-gray-200 transition-colors block text-center no-underline shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+                    Bilgi Alın
+                </a>
+            </div>
+
+            <!-- 3. PAKET (Premium) -->
+            <div class="p-6 text-center border-b border-gray-900/50 flex flex-col items-center justify-between gap-4">
+                <div class="space-y-2">
+                    <!-- Paket Adı -->
+                    <h3 class="text-xl font-bold text-gray-300">Global Marka</h3>
+                    <!-- Fiyat -->
+                    <div class="flex flex-col items-center">
+                        <span class="text-3xl font-bold text-white tracking-tight">₺60.000</span>
+                        <span class="text-xs text-gray-500">/yıllık</span>
+                    </div>
+                </div>
+                <!-- Buton -->
+                <a href="#" class="w-full py-3 px-4 rounded-xl text-sm font-semibold border border-gray-700 text-white hover:bg-gray-900 transition-colors block text-center no-underline">
+                    Bilgi Alın
+                </a>
+            </div>
+
+
+            <!-- 2. SATIR: ÖZELLİK ÖRNEĞİ (METİN İÇERİKLİ) -->
+            <!-- Özellik Adı -->
+            <div class="p-4 flex items-center border-b border-r border-gray-900/50 bg-[#0a0a0a]">
+                <span class="text-gray-300 font-medium text-sm">Altyapı & Kurulum</span>
+            </div>
+            <!-- Değer 1 -->
+            <div class="p-4 flex items-center justify-center border-b border-r border-gray-900/50 text-center">
+                <span class="text-sm font-medium text-gray-400">Hazır Sistem</span>
+            </div>
+            <!-- Değer 2 (Popüler Sütun - Hafif Mor Arka Plan) -->
+            <div class="p-4 flex items-center justify-center border-b border-r border-gray-900/50 text-center bg-purple-900/5">
+                <span class="text-sm font-medium text-white">WooCommerce / Shopify</span>
+            </div>
+            <!-- Değer 3 -->
+            <div class="p-4 flex items-center justify-center border-b border-gray-900/50 text-center">
+                <span class="text-sm font-medium text-gray-400">Özel Yazılım</span>
+            </div>
+
+
+            <!-- 3. SATIR: ÖZELLİK ÖRNEĞİ (TİK İŞARETLİ) -->
+            <!-- Özellik Adı -->
+            <div class="p-4 flex items-center border-b border-r border-gray-900/50 bg-[#0a0a0a]">
+                <span class="text-gray-300 font-medium text-sm">Kargo Entegrasyonu</span>
+            </div>
+            <!-- Değer 1 (TİK İKONU) -->
+            <div class="p-4 flex items-center justify-center border-b border-r border-gray-900/50 text-center">
+                <!-- Tik İkonu -->
+                <div class="flex justify-center items-center w-6 h-6 rounded-full bg-green-400/20 mx-auto">
+                    <svg class="w-4 h-4 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                </div>
+            </div>
+            <!-- Değer 2 (TİK İKONU + Popüler BG) -->
+            <div class="p-4 flex items-center justify-center border-b border-r border-gray-900/50 text-center bg-purple-900/5">
+                <div class="flex justify-center items-center w-6 h-6 rounded-full bg-green-400/20 mx-auto">
+                    <svg class="w-4 h-4 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                </div>
+            </div>
+            <!-- Değer 3 (TİK İKONU) -->
+            <div class="p-4 flex items-center justify-center border-b border-gray-900/50 text-center">
+                <div class="flex justify-center items-center w-6 h-6 rounded-full bg-green-400/20 mx-auto">
+                    <svg class="w-4 h-4 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                </div>
+            </div>
+
+
+            <!-- 4. SATIR: ÖZELLİK ÖRNEĞİ (ÇİZGİ/YOK İŞARETİ) -->
+            <!-- Özellik Adı -->
+            <div class="p-4 flex items-center border-b border-r border-gray-900/50 bg-[#0a0a0a]">
+                <span class="text-gray-300 font-medium text-sm">Pazaryeri Entegrasyonu</span>
+            </div>
+            <!-- Değer 1 (YOK - Çizgi) -->
+            <div class="p-4 flex items-center justify-center border-b border-r border-gray-900/50 text-center">
+                <div class="w-4 h-1 bg-gray-700 rounded-full"></div>
+            </div>
+            <!-- Değer 2 (METİN) -->
+            <div class="p-4 flex items-center justify-center border-b border-r border-gray-900/50 text-center bg-purple-900/5">
+                <span class="text-sm font-medium text-white">2 Mağaza</span>
+            </div>
+            <!-- Değer 3 (METİN) -->
+            <div class="p-4 flex items-center justify-center border-b border-gray-900/50 text-center">
+                <span class="text-sm font-medium text-gray-400">Sınırsız</span>
+            </div>
+
+
+            <!-- YENİ SATIR EKLEMEK İÇİN -->
+            <!-- Yukarıdaki "2. SATIR", "3. SATIR" veya "4. SATIR" bloklarından birini kopyalayıp buraya yapıştırın ve içindeki yazıları değiştirin. -->
+
+        </div>
+      </div>
+      
+      <!-- Mobil Kaydırma İpucu -->
+      <div class="md:hidden absolute bottom-4 left-0 right-0 text-center pointer-events-none">
+        <span class="text-xs text-gray-500 bg-black/80 px-3 py-1 rounded-full border border-gray-800">
+          Detaylar için sağa kaydırın →
+        </span>
+      </div>
+
+    </div>
+</div>
+
+<!-- BİTİŞ: TABLO KODU -->
+
+</body>
+</html>

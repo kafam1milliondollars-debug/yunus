@@ -1,0 +1,712 @@
+
+<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mageros - Dijital Çözüm Ortağınız</title>
+    <meta name="description" content="Mageros Dijital Ajans - Web Tasarım, E-Ticaret, SEO, Sosyal Medya ve Prodüksiyon Hizmetleri." />
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts & Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- React & Babel -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #000000;
+        color: white;
+        overflow-x: hidden;
+      }
+      /* Custom Animation Utilities */
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .animate-fadeIn {
+        animation: fadeIn 0.5s ease-out forwards;
+      }
+
+      /* 3D Carousel Keyframes */
+      @keyframes spin {
+        from { transform: rotateY(0deg); }
+        to { transform: rotateY(360deg); }
+      }
+      .perspective-1000 {
+        perspective: 1000px;
+      }
+      .transform-style-3d {
+        transform-style: preserve-3d;
+      }
+      .animate-spin-slow {
+        animation: spin 30s infinite linear;
+      }
+      /* Pause animation on hover */
+      .group:hover .animate-spin-slow {
+        animation-play-state: paused;
+      }
+      
+      /* Hide Scrollbar */
+      .no-scrollbar::-webkit-scrollbar {
+          display: none;
+      }
+      .no-scrollbar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useState, useEffect, Fragment } = React;
+
+      // --- DATA & CONSTANTS ---
+      const pricingData = [
+        {
+            id: 'web-tasarim',
+            label: 'Web Tasarım',
+            icon: 'computer',
+            shortDesc: 'Markanızı dijital dünyada en iyi yansıtan, modern, hızlı ve mobil uyumlu web siteleri tasarlıyoruz.',
+            packages: [
+            { name: 'Kurumsal', price: '₺15.000', period: '/tek sefer', isPopular: false },
+            { name: 'Profesyonel', price: '₺25.000', period: '/tek sefer', isPopular: true, highlightColor: 'blue' },
+            { name: 'Premium & Özel', price: '₺45.000', period: '/tek sefer', isPopular: false },
+            ],
+            features: [
+            { name: 'Domain (Alan Adı) & Hosting', values: ['1 Yıl Hediye', '1 Yıl Hediye', '2 Yıl Hediye (VPS)'] },
+            { name: 'Arayüz Tasarımı (UI/UX)', values: ['Modern Şablon', 'Özel Tasarım', 'Kişiye Özel Premium UI'] },
+            { name: 'Mobil Uyumluluk (Responsive)', values: [true, true, true] },
+            { name: 'Yönetim Paneli (CMS)', values: ['Standart', 'Gelişmiş', 'Özel Yazılım Panel'] },
+            { name: 'Sayfa Sayısı', values: ['5 Sayfaya Kadar', '15 Sayfaya Kadar', 'Sınırsız'] },
+            { name: 'SEO Altyapı Kurulumu', values: ['Temel', 'Kapsamlı', 'İleri Düzey + Schema'] },
+            { name: 'Kurumsal E-Posta Kurulumu', values: ['5 Adet', '20 Adet', 'Sınırsız'] },
+            { name: 'İletişim & WhatsApp Modülü', values: [true, true, true] },
+            { name: 'Çoklu Dil Desteği', values: [false, '2 Dil', 'Sınırsız Dil'] },
+            { name: 'Blog / Haberler Modülü', values: [false, true, true] },
+            { name: 'Google Haritalar Kaydı', values: [true, true, true] },
+            { name: 'Teknik Destek & Bakım', values: ['1 Ay', '6 Ay', '1 Yıl VIP'] },
+            ]
+        },
+        {
+            id: 'e-ticaret',
+            label: 'E-Ticaret',
+            icon: 'shopping_cart',
+            shortDesc: 'Ürünlerinizi 7/24 satabileceğiniz, güvenli ödeme altyapısına sahip güçlü e-ticaret mağazaları kuruyoruz.',
+            packages: [
+            { name: 'Girişimci', price: '₺20.000', period: '/yıllık', isPopular: false },
+            { name: 'Büyüme', price: '₺35.000', period: '/yıllık', isPopular: true, highlightColor: 'purple' },
+            { name: 'Global Marka', price: '₺60.000', period: '/yıllık', isPopular: false },
+            ],
+            features: [
+            { name: 'Altyapı & Kurulum', values: ['Hazır Sistem', 'WooCommerce / Shopify', 'Özel / T-Soft / İkas'] },
+            { name: 'Tasarım Özelleştirme', values: ['Logo & Renkler', 'Kategori & Bannerlar', 'Full Konsept Tasarım'] },
+            { name: 'Sanal POS (Ödeme) Entegrasyonu', values: ['iyzico/PayTR', 'Tüm Bankalar', 'Global (Stripe vb.)'] },
+            { name: 'Kargo & Lojistik Entegrasyonu', values: [true, true, true] },
+            { name: 'Ürün Yükleme Desteği', values: ['50 Ürün', '250 Ürün', 'Sınırsız / XML'] },
+            { name: 'Pazaryeri Entegrasyonu (Trendyol vb.)', values: [false, '2 Mağaza', 'Tüm Pazaryerleri'] },
+            { name: 'Stok & Sipariş Yönetimi', values: ['Manuel', 'Otomatik Panel', 'Gelişmiş ERP Bağlantısı'] },
+            { name: 'Hediye Çeki & Promosyon Modülü', values: [true, true, true] },
+            { name: 'Üyelik & Müşteri Paneli', values: [true, true, true] },
+            { name: 'E-Fatura Entegrasyonu', values: [false, true, true] },
+            { name: 'Sosyal Medya Mağaza (Insta Shop)', values: [false, true, true] },
+            { name: 'Yönetim Paneli Eğitimi', values: ['Video Eğitim', 'Online Birebir', 'Yerinde Eğitim'] },
+            ]
+        },
+        {
+            id: 'e-ihracat',
+            label: 'E-İhracat',
+            icon: 'public',
+            shortDesc: 'Sınırları kaldırın. Ürünlerinizi döviz ile dünyaya satmanız için gerekli tüm altyapı ve danışmanlığı sağlıyoruz.',
+            packages: [
+            { name: 'Mikro İhracat', price: '€1.500', period: '/proje', isPopular: false },
+            { name: 'Global Oyuncu', price: '€3.000', period: '/proje', isPopular: true, highlightColor: 'pink' },
+            { name: 'Uluslararası Marka', price: '€5.000', period: '/proje', isPopular: false },
+            ],
+            features: [
+            { name: 'Hedef Pazar Analizi', values: ['Bölgesel', 'Kıtasal', 'Global'] },
+            { name: 'Yurtdışı Pazaryeri Kurulumu (Amazon/Etsy)', values: ['1 Platform', '3 Platform', '5 Platform + FBA'] },
+            { name: 'Gümrük & Lojistik Danışmanlığı', values: ['Temel Bilgi', 'Süreç Yönetimi', 'Birebir Operasyon'] },
+            { name: 'Çoklu Para Birimi & Dil Ayarları', values: [true, true, true] },
+            { name: 'Yurtdışı Ödeme Sistemleri (PayPal/Stripe)', values: ['Danışmanlık', 'Kurulum Desteği', 'Tam Entegrasyon'] },
+            { name: 'Global Dijital Pazarlama Stratejisi', values: [false, 'Google Ads Global', '360° Global Ads'] },
+            { name: 'Devlet Teşvikleri Danışmanlığı', values: [false, true, true] },
+            { name: 'Yurtdışı Şirketleşme Rehberliği', values: [false, false, true] },
+            ]
+        },
+        {
+            id: 'dijital-pazarlama',
+            label: 'Dijital Pazarlama',
+            icon: 'campaign',
+            shortDesc: 'Doğru hedef kitleye, doğru zamanda ulaşın. Sosyal medya ve Google reklamları ile satışlarınızı artırın.',
+            packages: [
+            { name: 'Start', price: '₺10.000', period: '/ay', isPopular: false },
+            { name: 'Scale-Up', price: '₺18.000', period: '/ay', isPopular: true, highlightColor: 'blue' },
+            { name: 'Dominance', price: '₺30.000', period: '/ay', isPopular: false },
+            ],
+            features: [
+            { name: 'Sosyal Medya Yönetimi', values: ['2 Platform', '3 Platform', '5 Platform'] },
+            { name: 'Aylık İçerik Planı', values: ['8 Post', '12 Post + 8 Story', '20 Post + 20 Story'] },
+            { name: 'Reels / Video Kurgu', values: [false, '4 Reels', '8 Reels + Prodüksiyon'] },
+            { name: 'Meta Ads (Facebook/Instagram) Yönetimi', values: ['Bütçe Planlama', 'Gelişmiş Hedefleme', 'Dönüşüm Odaklı (ROAS)'] },
+            { name: 'Google Ads (Arama/Görüntülü) Yönetimi', values: [false, true, true] },
+            { name: 'Remarketing (Yeniden Pazarlama)', values: [false, true, true] },
+            { name: 'Influencer Marketing Kurgusu', values: [false, false, true] },
+            { name: 'Aylık Performans Raporu', values: ['Özet', 'Detaylı', 'Toplantı ile Sunum'] },
+            ]
+        },
+        {
+            id: 'seo',
+            label: 'S.E.O',
+            icon: 'search',
+            shortDesc: 'Google\'da ilk sayfada olun. Organik trafiğinizi artırarak reklam maliyetlerinizi düşürün.',
+            packages: [
+            { name: 'Yerel SEO', price: '₺8.000', period: '/ay', isPopular: false },
+            { name: 'Ulusal SEO', price: '₺14.000', period: '/ay', isPopular: true, highlightColor: 'purple' },
+            { name: 'Kurumsal SEO', price: '₺25.000', period: '/ay', isPopular: false },
+            ],
+            features: [
+            { name: 'Site İçi (On-Page) Optimizasyon', values: [true, true, true] },
+            { name: 'Teknik SEO & Hız Optimizasyonu', values: ['Temel', 'Gelişmiş', 'Tam Kapsamlı'] },
+            { name: 'Anahtar Kelime Araştırması', values: ['20 Kelime', '100 Kelime', 'Sınırsız'] },
+            { name: 'İçerik & Blog Stratejisi', values: ['2 Makale/Ay', '4 Makale/Ay', '8 Makale + PR'] },
+            { name: 'Backlink (Off-Page) Çalışmaları', values: ['Başlangıç', 'Otoriter Kaynaklar', 'Premium Haber Siteleri'] },
+            { name: 'Google Haritalar (Local SEO)', values: [true, true, true] },
+            { name: 'Rakip & Sektör Analizi', values: [false, true, true] },
+            { name: 'Haftalık Sıralama Takibi', values: [false, true, true] },
+            { name: 'Google Search Console Yönetimi', values: [true, true, true] },
+            ]
+        },
+        {
+            id: 'danismanlik',
+            label: 'Danışmanlık',
+            icon: 'school',
+            shortDesc: 'İşletmenizin dijital röntgenini çekiyor, büyümeniz için gereken yol haritasını sizinle birlikte çiziyoruz.',
+            packages: [
+            { name: 'Saatlik', price: '₺2.500', period: '/saat', isPopular: false },
+            { name: 'Aylık Mentörlük', price: '₺15.000', period: '/ay', isPopular: true, highlightColor: 'pink' },
+            { name: 'Proje Bazlı', price: 'Teklif Alın', period: '/proje', isPopular: false },
+            ],
+            features: [
+            { name: 'Mevcut Durum Analizi (Check-up)', values: [true, true, true] },
+            { name: 'Dijital Dönüşüm Stratejisi', values: [false, true, true] },
+            { name: 'Marka Konumlandırma', values: ['Yüzeysel', 'Detaylı', 'Full Strateji'] },
+            { name: 'Bütçe & Kaynak Yönetimi', values: [false, true, true] },
+            { name: 'Ekip Kurulumu & Eğitimi', values: [false, 'Yönlendirme', 'İşe Alım Desteği'] },
+            { name: 'Kriz Yönetimi Danışmanlığı', values: [false, true, true] },
+            { name: 'Haftalık İlerleme Toplantıları', values: [false, 'Online', 'Online/Yüz Yüze'] },
+            ]
+        },
+        {
+            id: 'mageros-akademi',
+            label: 'Mageros Akademi',
+            icon: 'menu_book',
+            shortDesc: 'Kendi ekibinizi yetiştirin veya kendinizi geliştirin. Sektör profesyonellerinden uygulamalı eğitimler.',
+            packages: [
+            { name: 'Video Eğitim', price: '₺1.500', period: '/paket', isPopular: false },
+            { name: 'Bootcamp', price: '₺7.500', period: '/6 hafta', isPopular: true, highlightColor: 'blue' },
+            { name: 'Birebir Eğitim', price: '₺15.000', period: '/kişi', isPopular: false },
+            ],
+            features: [
+            { name: 'Eğitim Kapsamı', values: ['Temel Seviye', 'İleri Seviye', 'Masterclass'] },
+            { name: 'E-Ticaret & Pazarlama Dersleri', values: ['10 Saat Video', '30 Saat Canlı', '40 Saat Özel'] },
+            { name: 'Uygulamalı Atölye Çalışmaları', values: [false, true, true] },
+            { name: 'Soru-Cevap & Mentorluk', values: ['Topluluk Grubu', 'Haftalık Canlı', '7/24 Birebir'] },
+            { name: 'Doküman & Kaynak Kütüphanesi', values: [true, true, true] },
+            { name: 'Bitirme Sertifikası', values: ['Dijital', 'Basılı & Dijital', 'Uluslararası Geçerli'] },
+            { name: 'Kariyer & Staj Desteği', values: [false, true, true] },
+            ]
+        },
+        {
+            id: 'kurumsal-kimlik',
+            label: 'Kurumsal Kimlik',
+            icon: 'palette',
+            shortDesc: 'Akılda kalıcı bir marka yaratın. Logo, renk paleti ve tüm kurumsal materyalleriniz bir bütün olsun.',
+            packages: [
+            { name: 'Startup', price: '₺10.000', period: '/tek sefer', isPopular: false },
+            { name: 'Prestij', price: '₺20.000', period: '/tek sefer', isPopular: true, highlightColor: 'purple' },
+            { name: 'Marka İnşası', price: '₺40.000', period: '/tek sefer', isPopular: false },
+            ],
+            features: [
+            { name: 'Logo Tasarımı', values: ['2 Alternatif', '3 Alternatif', '5 Alternatif'] },
+            { name: 'Renk Paleti & Tipografi', values: [true, true, true] },
+            { name: 'Kurumsal Evraklar (Kartvizit, Antetli vb.)', values: ['3 Parça', '5 Parça', 'Tüm Set'] },
+            { name: 'Marka Rehberi (Brandbook)', values: [false, 'Mini Rehber', 'Kapsamlı Rehber'] },
+            { name: 'Sosyal Medya Kit (Profil & Kapak)', values: [false, true, true] },
+            { name: 'Sunum Şablonu Tasarımı', values: [false, true, true] },
+            { name: 'Promosyon Ürün Tasarımları', values: [false, false, true] },
+            { name: 'Revize Hakkı', values: ['2 Tur', '3 Tur', 'Sınırsız'] },
+            ]
+        },
+        {
+            id: 'mobil-uygulama',
+            label: 'Mobil Uygulama',
+            icon: 'smartphone',
+            shortDesc: 'Müşterilerinizin cebine girin. iOS ve Android uyumlu, kullanıcı dostu mobil uygulamalar geliştiriyoruz.',
+            packages: [
+            { name: 'MVP', price: '₺60.000', period: '/proje', isPopular: false },
+            { name: 'Business', price: '₺120.000', period: '/proje', isPopular: true, highlightColor: 'pink' },
+            { name: 'Enterprise', price: 'Teklif Alın', period: '/proje', isPopular: false },
+            ],
+            features: [
+            { name: 'Platform', values: ['iOS veya Android', 'Hybrid (Flutter/RN)', 'Native (Swift/Kotlin)'] },
+            { name: 'UI/UX Tasarımı', values: ['Standart', 'Özel Tasarım', 'Premium UX Araştırmalı'] },
+            { name: 'Yönetim Paneli (Admin)', values: [true, true, true] },
+            { name: 'API Entegrasyonları', values: ['Temel', 'Gelişmiş', 'Tam Kapsamlı'] },
+            { name: 'Bildirim Sistemi (Push Notification)', values: [true, true, true] },
+            { name: 'Ödeme Altyapısı', values: [false, true, true] },
+            { name: 'Mağaza Yayınlama (Store)', values: ['Danışmanlık', 'Biz Yayınlıyoruz', 'Biz Yayınlıyoruz'] },
+            { name: 'Bakım ve Hata Düzeltme', values: ['1 Ay', '6 Ay', '1 Yıl'] },
+            ]
+        },
+        {
+            id: 'fotograf',
+            label: 'Fotoğraf',
+            icon: 'photo_camera',
+            shortDesc: 'Ürünlerinizi en iyi şekilde sunun. Profesyonel ekipmanlarla stüdyo veya dış çekim hizmetleri.',
+            packages: [
+            { name: 'Ürün Çekimi', price: '₺5.000', period: '/gün', isPopular: false },
+            { name: 'Konsept', price: '₺12.000', period: '/gün', isPopular: true, highlightColor: 'blue' },
+            { name: 'Katalog', price: '₺25.000', period: '/gün', isPopular: false },
+            ],
+            features: [
+            { name: 'Çekim Türü', values: ['Beyaz Fon (E-Ticaret)', 'Styling & Konsept', 'Mekan & Model'] },
+            { name: 'Teslim Edilen Kare', values: ['20 Kare', '50 Kare', '100+ Kare'] },
+            { name: 'Retouch & Düzenleme', values: [true, true, true] },
+            { name: 'Model & Manken Kullanımı', values: [false, 'Opsiyonel', 'Dahil'] },
+            { name: 'Stüdyo / Mekan', values: ['Stüdyo', 'Stüdyo veya Dış', 'Özel Lokasyon'] },
+            { name: 'Video Backstage (Kamera Arkası)', values: [false, true, true] },
+            { name: 'Sosyal Medya Boyutlandırma', values: [false, true, true] },
+            ]
+        },
+        {
+            id: 'produksiyon',
+            label: 'Prodüksiyon',
+            icon: 'movie',
+            shortDesc: 'Hikayenizi videoya dönüştürüyoruz. Reklam, tanıtım ve sosyal medya içerikleri için profesyonel prodüksiyon.',
+            packages: [
+            { name: 'Reels Paket', price: '₺12.000', period: '/proje', isPopular: false },
+            { name: 'Tanıtım Filmi', price: '₺30.000', period: '/proje', isPopular: true, highlightColor: 'purple' },
+            { name: 'Reklam Filmi', price: '₺75.000', period: '/proje', isPopular: false },
+            ],
+            features: [
+            { name: 'Çekim Süresi', values: ['Yarım Gün', '1 Tam Gün', '2+ Gün'] },
+            { name: 'Ekipman Kalitesi', values: ['Sony A7SIII / FX3', 'Red Komodo / FX6', 'Arri Alexa Mini'] },
+            { name: 'Senaryo & Metin Yazımı', values: [false, true, true] },
+            { name: 'Kurgu & Montaj (Post)', values: [true, true, true] },
+            { name: 'Ses Tasarımı & Mix', values: [false, true, true] },
+            { name: 'Drone Çekimi', values: [false, 'Opsiyonel', 'Dahil'] },
+            { name: 'Format', values: ['Dikey (9:16)', 'Yatay (16:9)', 'Tüm Formatlar'] },
+            { name: 'Revize Hakkı', values: ['1 Tur', '2 Tur', 'Sınırsız'] },
+            ]
+        }
+      ];
+
+      // --- COMPONENTS ---
+      
+      const Navbar = ({ user, onLoginClick, onRegisterClick, onLogout, onDashboardClick }) => {
+        const [scrolled, setScrolled] = useState(false);
+        const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+        const navItems = ['Anasayfa', 'Hizmetler', 'Hikayeler', 'Fiyatlar', 'İletişim'];
+
+        useEffect(() => {
+          const handleScroll = () => setScrolled(window.scrollY > 50);
+          window.addEventListener('scroll', handleScroll);
+          return () => window.removeEventListener('scroll', handleScroll);
+        }, []);
+
+        const scrollToSection = (id) => {
+            setMobileMenuOpen(false);
+            const element = document.getElementById(id);
+            if(element) element.scrollIntoView({behavior: 'smooth'});
+        };
+
+        return (
+          <>
+            <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled || mobileMenuOpen ? 'bg-black/90 backdrop-blur-md border-b border-white/10 py-4' : 'bg-transparent py-6'}`}>
+              <div className="max-w-7xl mx-auto px-4 md:px-6 flex justify-between items-center">
+                <div onClick={() => scrollToSection('home')} className="text-2xl md:text-3xl font-bold cursor-pointer tracking-tighter z-50 flex items-center gap-2">
+                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500">MAGEROS</span>
+                </div>
+
+                <div className="hidden md:flex items-center gap-6">
+                  {!user ? navItems.map((item, index) => {
+                      const target = item === 'Anasayfa' ? 'home' : item === 'Hikayeler' ? 'stories' : item === 'Hizmetler' ? 'services' : item === 'Fiyatlar' ? 'pricing' : 'contact';
+                      return (
+                        <button key={index} onClick={() => scrollToSection(target)} className="text-sm font-medium text-gray-300 hover:text-white px-3 py-2 transition-all uppercase tracking-wide">
+                          {item}
+                        </button>
+                      )
+                  }) : <button onClick={onDashboardClick} className="text-sm font-medium text-gray-300 hover:text-white uppercase tracking-wide">Panelim</button>}
+                  
+                  <div className="h-6 w-px bg-gray-800 mx-2"></div>
+
+                  {user ? (
+                    <div className="flex items-center gap-4">
+                      <button onClick={onLogout} className="px-5 py-2 rounded-full border border-gray-700 text-white hover:border-red-500 hover:text-red-400 text-sm font-medium">Çıkış</button>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-3">
+                      <button onClick={onLoginClick} className="px-5 py-2 rounded-full text-white hover:bg-white/10 text-sm font-medium">Giriş Yap</button>
+                      <button onClick={onRegisterClick} className="px-5 py-2 rounded-full bg-white text-black font-bold hover:scale-105 transition-all text-sm">Kayıt Ol</button>
+                    </div>
+                  )}
+                </div>
+
+                <button className="md:hidden text-white z-50" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+                   <span className="material-icons">{mobileMenuOpen ? 'close' : 'menu'}</span>
+                </button>
+              </div>
+            </nav>
+
+            <div className={`fixed inset-0 bg-black z-40 transform transition-transform duration-300 ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'} md:hidden flex flex-col items-center justify-center space-y-8`}>
+                {!user && navItems.map((item, index) => {
+                    const target = item === 'Anasayfa' ? 'home' : item === 'Hikayeler' ? 'stories' : item === 'Hizmetler' ? 'services' : item === 'Fiyatlar' ? 'pricing' : 'contact';
+                    return <button key={index} onClick={() => scrollToSection(target)} className="text-2xl font-bold text-white hover:text-purple-500">{item}</button>
+                })}
+                {user && <button onClick={() => { setMobileMenuOpen(false); onDashboardClick(); }} className="text-2xl font-bold text-purple-400">Panelim</button>}
+                <div className="flex flex-col gap-4 mt-8 w-64">
+                   {!user ? (
+                     <>
+                        <button onClick={() => { setMobileMenuOpen(false); onLoginClick(); }} className="w-full py-3 rounded-xl border border-gray-700 text-white font-bold">Giriş Yap</button>
+                        <button onClick={() => { setMobileMenuOpen(false); onRegisterClick(); }} className="w-full py-3 rounded-xl bg-white text-black font-bold">Kayıt Ol</button>
+                     </>
+                   ) : <button onClick={() => { setMobileMenuOpen(false); onLogout(); }} className="w-full py-3 rounded-xl border border-red-500 text-red-500 font-bold">Çıkış Yap</button>}
+                </div>
+            </div>
+          </>
+        );
+      };
+
+      const CreativeHero = () => {
+        const slides = [
+          {
+            id: 1,
+            image: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2301&auto=format&fit=crop",
+            subtitle: "DİJİTAL DÖNÜŞÜM AJANSI",
+            titleLine1: "Markanızı",
+            titleLine2: "Geleceğe Taşıyoruz",
+            description: "Web tasarım, yazılım ve stratejik pazarlama çözümleriyle işletmenizin potansiyelini açığa çıkarın.",
+            cta: "Projeyi Başlat",
+            color: "from-blue-500 to-purple-600"
+          },
+          {
+            id: 2,
+            image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2070&auto=format&fit=crop",
+            subtitle: "YARATICI TEKNOLOJİLER",
+            titleLine1: "Sınırları",
+            titleLine2: "Ortadan Kaldırın",
+            description: "Yapay zeka destekli çözümler ve yenilikçi tasarımlarla rakiplerinizin bir adım önüne geçin.",
+            cta: "Hizmetleri İncele",
+            color: "from-purple-500 to-pink-600"
+          },
+          {
+            id: 3,
+            image: "https://images.unsplash.com/photo-1533750516457-a7f992034fec?q=80&w=2106&auto=format&fit=crop",
+            subtitle: "GLOBAL E-İHRACAT",
+            titleLine1: "Dünyaya",
+            titleLine2: "Satış Yapın",
+            description: "Sınırları aşan e-ticaret stratejileri ile ürünlerinizi global pazarlara ulaştırıyoruz.",
+            cta: "İletişime Geç",
+            color: "from-orange-500 to-red-600"
+          }
+        ];
+        const [current, setCurrent] = useState(0);
+
+        useEffect(() => {
+          const timer = setInterval(() => setCurrent((prev) => (prev === slides.length - 1 ? 0 : prev + 1)), 6000);
+          return () => clearInterval(timer);
+        }, []);
+
+        return (
+          <div id="home" className="relative w-full h-screen overflow-hidden bg-black text-white">
+            {slides.map((slide, index) => {
+              const isActive = index === current;
+              return (
+                <div key={slide.id} className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${isActive ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}>
+                  <div className="absolute inset-0 overflow-hidden">
+                      <div className={`w-full h-full transform transition-transform duration-[8000ms] ease-out ${isActive ? 'scale-110' : 'scale-100'}`}>
+                          <img src={slide.image} className="w-full h-full object-cover brightness-[0.4]" />
+                      </div>
+                  </div>
+                  <div className="absolute inset-0 flex flex-col justify-center px-6 md:px-20 max-w-7xl mx-auto">
+                      <p className={`text-sm md:text-base font-bold tracking-[0.3em] text-gray-300 uppercase mb-4 transform transition-transform duration-1000 ${isActive ? 'translate-y-0' : 'translate-y-full'}`}>— {slide.subtitle}</p>
+                      <h1 className="text-5xl md:text-8xl font-black leading-tight"><span className="block text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400">{slide.titleLine1}</span></h1>
+                      <h1 className="text-5xl md:text-8xl font-black leading-tight mb-8"><span className={`block text-transparent bg-clip-text bg-gradient-to-r ${slide.color}`}>{slide.titleLine2}</span></h1>
+                      <p className={`max-w-xl text-lg md:text-xl text-gray-300 mb-10 leading-relaxed transition-all duration-1000 ${isActive ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>{slide.description}</p>
+                      <button onClick={() => document.getElementById('pricing')?.scrollIntoView({behavior: 'smooth'})} className="w-fit px-8 py-4 bg-white text-black font-bold rounded-full hover:scale-105 transition-transform">{slide.cta}</button>
+                  </div>
+                </div>
+              );
+            })}
+             <div className="absolute bottom-10 right-6 md:right-20 z-30 flex flex-col gap-4 items-end">
+               <div className="flex gap-3">
+                   {slides.map((_, idx) => (
+                       <button key={idx} onClick={() => setCurrent(idx)} className={`w-1 h-12 rounded-full transition-all duration-500 ${idx === current ? 'bg-white h-20' : 'bg-gray-700 hover:bg-gray-500'}`}></button>
+                   ))}
+               </div>
+            </div>
+          </div>
+        );
+      };
+
+      const Service3DCarousel = () => {
+        const showcaseItems = [
+            { id: 1, title: "E-Ticaret", category: "Web Tasarım", image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=800&auto=format&fit=crop" },
+            { id: 2, title: "Mobil App", category: "Yazılım", image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=800&auto=format&fit=crop" },
+            { id: 3, title: "SEO Analiz", category: "Veri", image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop" },
+            { id: 4, title: "Sosyal Medya", category: "İçerik", image: "https://images.unsplash.com/photo-1611162616475-46b635cb6868?q=80&w=800&auto=format&fit=crop" },
+            { id: 5, title: "Prodüksiyon", category: "Video", image: "https://images.unsplash.com/photo-1601506521937-24626bcd853c?q=80&w=800&auto=format&fit=crop" },
+            { id: 6, title: "E-İhracat", category: "Global", image: "https://images.unsplash.com/photo-1578575437130-527eed3abbec?q=80&w=800&auto=format&fit=crop" },
+            { id: 7, title: "Marka Kimliği", category: "Tasarım", image: "https://images.unsplash.com/photo-1634942537034-2531766767d1?q=80&w=800&auto=format&fit=crop" },
+            { id: 8, title: "Mageros Akademi", category: "Eğitim", image: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=800&auto=format&fit=crop" }
+        ];
+        const [radius, setRadius] = useState(450);
+
+        useEffect(() => {
+            const handleResize = () => setRadius(window.innerWidth < 768 ? 140 : 450);
+            handleResize();
+            window.addEventListener('resize', handleResize);
+            return () => window.removeEventListener('resize', handleResize);
+        }, []);
+
+        return (
+            <section className="py-24 bg-black relative overflow-hidden flex flex-col items-center justify-center min-h-[500px] md:min-h-[700px] border-b border-gray-900 w-full">
+               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-purple-900/20 rounded-full blur-[100px] pointer-events-none"></div>
+               <div className="absolute top-10 z-20 text-center px-4 w-full">
+                  <h2 className="text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-600 mb-2">Dijital Vitrin</h2>
+                  <p className="text-gray-400 text-sm md:text-base">Hizmetlerimizin görsel dünyasında 360° bir tur atın.</p>
+               </div>
+               <div className="perspective-1000 relative w-full h-[300px] md:h-[400px] flex items-center justify-center mt-10 md:mt-20 group">
+                  <div className="transform-style-3d animate-spin-slow w-[140px] md:w-[280px] h-[100px] md:h-[200px] absolute">
+                     {showcaseItems.map((item, index) => {
+                        const rotation = index * (360 / showcaseItems.length);
+                        return (
+                            <div key={item.id} className="absolute inset-0 rounded-xl overflow-hidden border border-white/10 bg-gray-900 shadow-[0_0_20px_rgba(0,0,0,0.5)] transition-all duration-300"
+                                style={{ transform: `rotateY(${rotation}deg) translateZ(${radius}px)` }}>
+                                <img src={item.image} className="w-full h-full object-cover opacity-90" />
+                                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-2 md:p-4">
+                                    <span className="text-[8px] md:text-[10px] font-bold text-cyan-400 uppercase tracking-widest block mb-0.5">{item.category}</span>
+                                    <h3 className="text-white font-bold text-xs md:text-lg leading-none">{item.title}</h3>
+                                </div>
+                            </div>
+                        )
+                     })}
+                  </div>
+               </div>
+               <div className="absolute bottom-10 text-gray-500 text-[10px] md:text-xs animate-pulse tracking-widest">DURDURMAK İÇİN ÜZERİNE GELİN</div>
+            </section>
+        );
+      };
+
+      const ServicesGrid = () => (
+        <section id="services" className="py-24 px-4 relative bg-[#050505]">
+           <div className="max-w-7xl mx-auto relative z-10">
+               <div className="text-center mb-16">
+                  <h2 className="text-3xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400">Hizmetlerimiz</h2>
+                  <p className="text-gray-400 max-w-2xl mx-auto">360° dijital ajans deneyimi. İhtiyacınız olan her şey tek bir çatı altında.</p>
+               </div>
+               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {pricingData.map((service) => (
+                      <div key={service.id} onClick={() => document.getElementById('pricing')?.scrollIntoView({behavior: 'smooth'})} className="group p-8 rounded-2xl bg-[#0a0a0a] border border-gray-900 hover:border-purple-500/50 transition-all duration-300 hover:shadow-[0_0_30px_rgba(168,85,247,0.15)] cursor-pointer">
+                          <div className="w-12 h-12 mb-6 rounded-lg bg-gray-800 flex items-center justify-center text-2xl text-purple-400 border border-gray-700">
+                             <span className="material-icons">{service.icon || 'star'}</span>
+                          </div>
+                          <h3 className="text-xl font-bold text-white mb-3 group-hover:text-purple-400 transition-colors">{service.label}</h3>
+                          <p className="text-gray-400 text-sm leading-relaxed">{service.shortDesc}</p>
+                      </div>
+                  ))}
+               </div>
+           </div>
+        </section>
+      );
+
+      const VideoShowcase = () => (
+         <section id="stories" className="py-20 bg-[#080808] border-b border-gray-900">
+            <div className="max-w-7xl mx-auto px-4 md:px-6">
+               <div className="flex flex-col md:flex-row justify-between items-end mb-8 gap-4">
+                  <div><h2 className="text-3xl md:text-5xl font-bold text-white mb-2">Mageros TV</h2><p className="text-gray-400">Markaların dijital dönüşüm hikayeleri.</p></div>
+                  <button className="hidden md:block bg-white/5 text-white px-6 py-3 rounded-lg border border-white/10 text-sm font-semibold">Tüm Videolar →</button>
+               </div>
+               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-auto lg:h-[500px]">
+                   <div className="lg:col-span-2 relative group rounded-2xl overflow-hidden cursor-pointer h-[300px] lg:h-full border border-gray-800 hover:border-purple-500/50 transition-all">
+                       <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=2069&auto=format&fit=crop" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-90"></div>
+                       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/30"><span className="material-icons text-white">play_arrow</span></div>
+                       <div className="absolute bottom-0 left-0 p-6 md:p-8"><div className="inline-block px-3 py-1 bg-black/60 backdrop-blur text-xs font-bold text-white rounded mb-3">Başarı Hikayeleri</div><h3 className="text-2xl md:text-4xl font-bold text-white">Mageros ile %400 Büyüme</h3></div>
+                   </div>
+                   <div className="flex flex-col gap-6 h-full">
+                       <div className="relative group rounded-2xl overflow-hidden cursor-pointer flex-1 border border-gray-800 min-h-[200px]"><img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=1974&auto=format&fit=crop" className="w-full h-full object-cover" /><div className="absolute inset-0 bg-black/50"></div><div className="absolute bottom-0 left-0 p-5"><h3 className="text-lg font-bold text-white">Dijital Dönüşüm</h3></div></div>
+                       <div className="relative group rounded-2xl overflow-hidden cursor-pointer flex-1 border border-gray-800 min-h-[200px]"><img src="https://images.unsplash.com/photo-1559136555-930d72f1d336?q=80&w=2000&auto=format&fit=crop" className="w-full h-full object-cover" /><div className="absolute inset-0 bg-black/50"></div><div className="absolute bottom-0 left-0 p-5"><h3 className="text-lg font-bold text-white">Sıfırdan Zirveye</h3></div></div>
+                   </div>
+               </div>
+            </div>
+         </section>
+      );
+
+      const PricingTable = ({ data }) => {
+        return (
+          <Fragment>
+            {/* Mobile Cards */}
+            <div className="md:hidden flex flex-col gap-6">
+               {data.packages.map((pkg, index) => (
+                  <div key={index} className={`relative rounded-2xl border bg-[#0a0a0a] p-6 overflow-hidden ${pkg.isPopular ? 'border-purple-500/50 shadow-[0_0_20px_rgba(168,85,247,0.2)]' : 'border-gray-800'}`}>
+                      {pkg.isPopular && <div className="absolute top-0 right-0 bg-purple-600 text-white text-[10px] font-bold px-3 py-1 rounded-bl-xl uppercase tracking-wider">Popüler</div>}
+                      <div className="text-center mb-6">
+                         <h3 className="text-xl font-bold text-white mb-2">{pkg.name}</h3>
+                         <div className="flex items-center justify-center gap-1"><span className="text-3xl font-bold text-white">{pkg.price}</span><span className="text-xs text-gray-500">{pkg.period}</span></div>
+                      </div>
+                      <div className="space-y-3 mb-6">
+                         {data.features.slice(0, 6).map((feature, fIndex) => {
+                             const val = feature.values[index];
+                             return <div key={fIndex} className="flex justify-between items-center text-sm border-b border-gray-900 pb-2 last:border-0"><span className="text-gray-400">{feature.name}</span><span className="text-white font-medium">{typeof val === 'boolean' ? (val ? 'Var' : '-') : val}</span></div>
+                         })}
+                      </div>
+                      <button className={`w-full py-3 rounded-xl font-bold text-sm transition-all ${pkg.isPopular ? 'bg-white text-black' : 'border border-gray-700 text-white'}`}>Paketi Seç</button>
+                  </div>
+               ))}
+            </div>
+            
+            {/* Desktop Table */}
+            <div className="hidden md:block relative w-full overflow-hidden rounded-3xl border border-gray-900 bg-[#050505] shadow-2xl">
+               <div className="grid grid-cols-4 min-w-[800px] overflow-x-auto">
+                   <div className="p-8 flex items-end border-b border-r border-gray-900/50 bg-[#0a0a0a]"><span className="text-gray-400 font-bold text-sm uppercase">{data.label} Özellikleri</span></div>
+                   {data.packages.map((pkg, index) => (
+                       <div key={index} className={`p-8 text-center border-b border-gray-900/50 flex flex-col items-center justify-between gap-4 ${pkg.isPopular ? 'bg-purple-900/10' : ''} ${index !== 2 ? 'border-r' : ''}`}>
+                           {pkg.isPopular && <span className="text-[10px] font-bold uppercase text-white bg-purple-600 px-3 py-1 rounded-full mb-2">Popüler</span>}
+                           <h3 className="text-xl font-bold text-white">{pkg.name}</h3>
+                           <div className="flex flex-col"><span className="text-3xl font-bold text-white">{pkg.price}</span><span className="text-xs text-gray-500">{pkg.period}</span></div>
+                           <button className={`w-full py-3 px-4 rounded-xl text-sm font-semibold mt-4 ${pkg.isPopular ? 'bg-white text-black' : 'border border-gray-700 text-white'}`}>Bilgi Alın</button>
+                       </div>
+                   ))}
+                   {data.features.map((feature, fIndex) => (
+                       <Fragment key={fIndex}>
+                           <div className="p-6 flex items-center border-b border-r border-gray-900/50 bg-[#0a0a0a]"><span className="text-gray-300 font-medium">{feature.name}</span></div>
+                           {feature.values.map((val, vIndex) => (
+                               <div key={vIndex} className={`p-6 flex items-center justify-center border-b border-gray-900/50 text-center ${vIndex !== 2 ? 'border-r' : ''} ${data.packages[vIndex].isPopular ? 'bg-purple-900/5' : ''}`}>
+                                   {typeof val === 'boolean' ? (val ? <span className="material-icons text-green-400">check_circle</span> : <div className="w-4 h-1 bg-gray-700 rounded-full"></div>) : <span className="text-sm font-medium text-gray-400">{val}</span>}
+                               </div>
+                           ))}
+                       </Fragment>
+                   ))}
+               </div>
+            </div>
+          </Fragment>
+        );
+      };
+
+      const ContactCTA = () => (
+         <section id="contact" className="py-24 bg-gradient-to-b from-[#050505] to-black border-t border-gray-900">
+             <div className="max-w-7xl mx-auto px-4 md:px-6">
+                 <div className="bg-gradient-to-r from-purple-900/80 to-blue-900/80 rounded-3xl p-10 md:p-16 text-center mb-24 relative overflow-hidden border border-white/10">
+                     <h2 className="text-3xl md:text-5xl font-black text-white mb-6 relative z-10">Markanızı Zirveye Taşımaya Hazır mısınız?</h2>
+                     <div className="flex flex-col sm:flex-row justify-center gap-4 relative z-10"><button className="px-8 py-4 bg-white text-black font-bold rounded-full">Hemen Teklif Al</button></div>
+                 </div>
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+                     <div><h3 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400 mb-6">Bize Ulaşın</h3><p className="text-gray-400 mb-8">Projeleriniz hakkında konuşmak için ofisimize bekleriz.</p>
+                     <div className="space-y-6">
+                         <div className="flex items-center gap-4"><span className="material-icons text-purple-400">location_on</span><div><h4 className="text-white font-bold">Adres</h4><p className="text-gray-500 text-sm">Maslak, İstanbul</p></div></div>
+                         <div className="flex items-center gap-4"><span className="material-icons text-blue-400">mail</span><div><h4 className="text-white font-bold">E-Posta</h4><p className="text-gray-500 text-sm">info@mageros.com</p></div></div>
+                     </div>
+                     </div>
+                     <form className="space-y-4 bg-[#0a0a0a] p-8 rounded-2xl border border-gray-900"><input type="text" className="w-full bg-black border border-gray-800 rounded-lg p-3 text-white" placeholder="Adınız" /><input type="email" className="w-full bg-black border border-gray-800 rounded-lg p-3 text-white" placeholder="E-Posta" /><textarea rows={4} className="w-full bg-black border border-gray-800 rounded-lg p-3 text-white" placeholder="Mesajınız"></textarea><button type="button" className="w-full py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold rounded-lg">Gönder</button></form>
+                 </div>
+             </div>
+         </section>
+      );
+
+      const AuthModal = ({ isOpen, type, onClose, onLoginSuccess }) => {
+          if (!isOpen) return null;
+          return (
+              <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+                  <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={onClose}></div>
+                  <div className="relative bg-[#0a0a0a] border border-gray-800 rounded-2xl w-full max-w-md p-8">
+                      <h2 className="text-2xl font-bold text-white mb-6">{type === 'login' ? 'Giriş Yap' : 'Kayıt Ol'}</h2>
+                      <form className="space-y-4">
+                          <input type="email" placeholder="E-Posta" className="w-full bg-gray-900 border border-gray-800 rounded-lg p-3 text-white"/>
+                          <input type="password" placeholder="Şifre" className="w-full bg-gray-900 border border-gray-800 rounded-lg p-3 text-white"/>
+                          <button type="button" onClick={() => { onLoginSuccess({id:1, name:'Demo User', role:'user'}); onClose(); }} className="w-full py-4 bg-purple-600 text-white font-bold rounded-lg">{type === 'login' ? 'Giriş' : 'Kayıt'}</button>
+                      </form>
+                      <button onClick={onClose} className="absolute top-4 right-4 text-gray-500"><span className="material-icons">close</span></button>
+                  </div>
+              </div>
+          )
+      };
+
+      // --- MAIN APP COMPONENT ---
+      const App = () => {
+        const [activeCategory, setActiveCategory] = useState(pricingData[0].id);
+        const [user, setUser] = useState(null);
+        const [authModal, setAuthModal] = useState({ open: false, type: 'login' });
+        const [view, setView] = useState('landing');
+
+        const currentCategoryData = pricingData.find((d) => d.id === activeCategory);
+
+        return (
+            <div className="min-h-screen w-full bg-black text-white">
+                <Navbar 
+                    user={user} 
+                    onLoginClick={() => setAuthModal({open:true, type:'login'})}
+                    onRegisterClick={() => setAuthModal({open:true, type:'register'})}
+                    onLogout={() => { setUser(null); setView('landing'); }}
+                    onDashboardClick={() => setView('dashboard')}
+                />
+                
+                <AuthModal 
+                    isOpen={authModal.open} 
+                    type={authModal.type} 
+                    onClose={() => setAuthModal({...authModal, open:false})}
+                    onLoginSuccess={(u) => { setUser(u); setView('dashboard'); }}
+                />
+
+                {view === 'landing' ? (
+                    <>
+                        <CreativeHero />
+                        <Service3DCarousel />
+                        <ServicesGrid />
+                        <VideoShowcase />
+                        <section id="pricing" className="py-24 bg-[#050505] border-t border-gray-900">
+                           <div className="text-center max-w-7xl mx-auto px-4 mb-12">
+                              <h2 className="text-3xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">Paketler ve Fiyatlandırma</h2>
+                           </div>
+                           <div className="sticky top-20 z-30 bg-black/90 backdrop-blur-md py-4 border-y border-white/5 mb-8">
+                               <div className="flex justify-start md:justify-center overflow-x-auto gap-4 px-4 pb-2 no-scrollbar">
+                                   {pricingData.map((cat) => (
+                                       <button key={cat.id} onClick={() => setActiveCategory(cat.id)} className={`px-6 py-2.5 rounded-full text-sm font-semibold border whitespace-nowrap ${activeCategory === cat.id ? 'bg-purple-900/40 border-purple-500 text-white' : 'border-gray-800 text-gray-400'}`}>{cat.label}</button>
+                                   ))}
+                               </div>
+                           </div>
+                           <div className="max-w-7xl mx-auto px-4 md:px-6">
+                               {currentCategoryData && <PricingTable data={currentCategoryData} />}
+                           </div>
+                        </section>
+                        <ContactCTA />
+                        <footer className="bg-black border-t border-gray-900 py-12 px-4 text-center text-gray-500">© 2024 Mageros Digital Agency.</footer>
+                    </>
+                ) : (
+                    <div className="pt-32 pb-20 px-4 text-center">
+                        <h1 className="text-3xl font-bold">Panelim</h1>
+                        <p className="text-gray-400 mt-4">Hoş geldiniz, {user.name}.</p>
+                        <div className="bg-[#0a0a0a] p-8 rounded-xl border border-gray-800 mt-8 max-w-2xl mx-auto">
+                            <p>Proje Durumu: <span className="text-green-400 font-bold">Aktif</span></p>
+                        </div>
+                    </div>
+                )}
+            </div>
+        );
+      };
+
+      const root = ReactDOM.createRoot(document.getElementById('root'));
+      root.render(<App />);
+    </script>
+  </body>
+</html>
