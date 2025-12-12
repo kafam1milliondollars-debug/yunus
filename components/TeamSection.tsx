@@ -34,17 +34,18 @@ const teamMembers = [
 
 export const TeamSection: React.FC = () => {
   return (
-    <section className="py-24 bg-black border-t border-gray-900 relative overflow-hidden">
+    <section className="py-24 bg-white border-t border-slate-100 relative overflow-hidden">
       {/* Background Decor */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-900/10 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-50 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-50 rounded-full blur-[120px] pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto px-4 md:px-6 relative z-10">
         <div className="text-center mb-16">
-          <span className="text-blue-500 font-bold tracking-widest text-xs uppercase mb-2 block">KİMİZ BİZ?</span>
-          <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
-            Markanızın Arkasındaki <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Güçlü Ekip</span>
+          <span className="text-blue-600 font-bold tracking-widest text-xs uppercase mb-2 block">KİMİZ BİZ?</span>
+          <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-4">
+            Markanızın Arkasındaki <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Güçlü Ekip</span>
           </h2>
-          <p className="text-gray-400 max-w-2xl mx-auto">
+          <p className="text-slate-500 max-w-2xl mx-auto text-lg">
             Her biri alanında uzman, tutkulu ve yaratıcı zihinler. Başarınız için birlikte çalışıyoruz.
           </p>
         </div>
@@ -52,17 +53,17 @@ export const TeamSection: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {teamMembers.map((member) => (
             <div key={member.id} className="group relative">
-              <div className="relative overflow-hidden rounded-2xl aspect-[3/4] border border-gray-800 bg-gray-900">
+              <div className="relative overflow-hidden rounded-3xl aspect-[3/4] border border-slate-100 bg-slate-50 shadow-lg group-hover:shadow-2xl transition-all duration-500">
                 <img 
                   src={member.image} 
                   alt={member.name} 
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 grayscale group-hover:grayscale-0" 
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 
-                <div className="absolute bottom-0 left-0 w-full p-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                <div className="absolute bottom-0 left-0 w-full p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
                   <h3 className="text-xl font-bold text-white mb-1">{member.name}</h3>
-                  <p className="text-sm text-blue-400 font-medium">{member.role}</p>
+                  <p className="text-sm text-blue-300 font-medium">{member.role}</p>
                 </div>
               </div>
             </div>

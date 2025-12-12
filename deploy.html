@@ -144,6 +144,48 @@
             ]
         },
         {
+            id: 'pazaryeri-entegrasyon',
+            label: 'Pazaryeri Entegrasyon',
+            icon: 'hub',
+            shortDesc: 'Trendyol, Hepsiburada, N11 ve Amazon mağazalarınızı tek panelden yönetin. Stok, fiyat ve sipariş süreçlerini otomatikleştirin.',
+            packages: [
+            { name: 'Başlangıç', price: '₺29.000', period: '/yıllık', isPopular: false },
+            { name: 'Tam Otomasyon', price: '₺49.000', period: '/yıllık', isPopular: true, highlightColor: 'blue' },
+            { name: 'Global Entegratör', price: 'Fiyat Al', period: '/yıllık', isPopular: false },
+            ],
+            features: [
+            { name: 'Desteklenen Pazaryerleri', values: ['Trendyol + 1 Seçim', 'Trendyol, HB, N11', 'Tüm Yerli + Amazon TR'] },
+            { name: 'Stok & Fiyat Senkronizasyonu', values: ['15 Dakika', 'Anlık (Real-time)', 'Anlık + Global Kur'] },
+            { name: 'Otomatik Faturalandırma', values: [false, true, true] },
+            { name: 'Kargo Barkodu Oluşturma', values: ['Manuel', 'Otomatik', 'Otomatik + Takip'] },
+            { name: 'Buybox (Rekabet) Analizi', values: [false, 'Temel Analiz', 'Oto-Fiyat Motoru'] },
+            { name: 'Toplu Ürün Yükleme (XML)', values: [true, true, true] },
+            { name: 'Tek Ekrandan Sipariş Yönetimi', values: [true, true, true] },
+            { name: 'Müşteri Soruları & Mesajlaşma', values: [false, true, true] },
+            ]
+        },
+        {
+            id: 'veritabani',
+            label: 'Veritabanı & DBA',
+            icon: 'storage',
+            shortDesc: 'Verilerinizi güvenle saklayın. SQL ve NoSQL veritabanlarınız için kurulum, bakım, yedekleme ve performans optimizasyonu.',
+            packages: [
+            { name: 'Startup DB', price: '₺15.000', period: '/ay', isPopular: false },
+            { name: 'Enterprise DBA', price: '₺35.000', period: '/ay', isPopular: true, highlightColor: 'blue' },
+            { name: 'High Availability', price: 'Fiyat Al', period: '/proje', isPopular: false },
+            ],
+            features: [
+            { name: 'Kurulum & Yapılandırma', values: ['Tek Sunucu', 'Master-Slave', 'Cluster Yapısı'] },
+            { name: 'Veritabanı Türleri', values: ['MySQL/PostgreSQL', 'SQL + NoSQL', 'Tüm Platformlar'] },
+            { name: 'Yedekleme (Backup) Stratejisi', values: ['Günlük', 'Anlık (PITR)', 'Geo-Redundant'] },
+            { name: 'Performans Tuning', values: ['Temel İndeks', 'Sorgu Analizi', 'Derinlemesine Tuning'] },
+            { name: '7/24 İzleme & Alarm', values: [false, true, true] },
+            { name: 'Güvenlik & Audit', values: ['Temel', 'Gelişmiş', 'KVKK/GDPR Uyumlu'] },
+            { name: 'Veri Göçü (Migration)', values: [false, 'Dahil', 'Dahil'] },
+            { name: 'Disaster Recovery', values: [false, false, true] },
+            ]
+        },
+        {
             id: 'dijital-pazarlama',
             label: 'Dijital Pazarlama',
             icon: 'campaign',
@@ -468,7 +510,7 @@
             { id: 5, title: "Prodüksiyon", category: "Video", image: "https://images.unsplash.com/photo-1601506521937-24626bcd853c?q=80&w=800&auto=format&fit=crop" },
             { id: 6, title: "E-İhracat", category: "Global", image: "https://images.unsplash.com/photo-1578575437130-527eed3abbec?q=80&w=800&auto=format&fit=crop" },
             { id: 7, title: "Marka Kimliği", category: "Tasarım", image: "https://images.unsplash.com/photo-1634942537034-2531766767d1?q=80&w=800&auto=format&fit=crop" },
-            { id: 8, title: "Mageros Akademi", category: "Eğitim", image: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=800&auto=format&fit=crop" }
+            { id: 8, title: "Veritabanı DBA", category: "Altyapı", image: "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?q=80&w=800&auto=format&fit=crop" }
         ];
         const [radius, setRadius] = useState(450);
 
@@ -614,7 +656,7 @@
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
                      <div><h3 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400 mb-6">Bize Ulaşın</h3><p className="text-gray-400 mb-8">Projeleriniz hakkında konuşmak için ofisimize bekleriz.</p>
                      <div className="space-y-6">
-                         <div className="flex items-center gap-4"><span className="material-icons text-purple-400">location_on</span><div><h4 className="text-white font-bold">Adres</h4><p className="text-gray-500 text-sm">Maslak, İstanbul</p></div></div>
+                         <div className="flex items-center gap-4"><span className="material-icons text-purple-400">location_on</span><div><h4 className="text-white font-bold">Adres</h4><p className="text-gray-500 text-sm">Yenişehir mah, Osmanlı Blv. LENS İSTANBUL OFİSİ, 34912 Pendik/İstanbul</p></div></div>
                          <div className="flex items-center gap-4"><span className="material-icons text-blue-400">mail</span><div><h4 className="text-white font-bold">E-Posta</h4><p className="text-gray-500 text-sm">info@mageros.com</p></div></div>
                      </div>
                      </div>

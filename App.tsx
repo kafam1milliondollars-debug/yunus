@@ -1,3 +1,4 @@
+console.log("APP ÇALIŞTI");
 
 import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
@@ -12,6 +13,8 @@ import { UserDashboard } from './components/UserDashboard';
 import { PaymentPage } from './components/PaymentPage';
 import { PricingTable } from './components/PricingTable';
 import { TeamSection } from './components/TeamSection';
+import { InteractiveToolsSection } from './components/InteractiveToolsSection';
+import { ChatAssistant } from './components/ChatAssistant';
 import { pricingData as initialPricingData } from './constants';
 import { User, Lead, Package, CategoryData } from './types';
 
@@ -95,6 +98,42 @@ const App: React.FC = () => {
   // Payment State
   const [selectedPackage, setSelectedPackage] = useState<Package | null>(null);
 
+  // --- SECURITY & ANTI-COPY PROTECTION ---
+  useEffect(() => {
+    // 1. Disable Right Click
+    const handleContextMenu = (e: MouseEvent) => {
+      e.preventDefault();
+    };
+
+    // 2. Disable Keyboard Shortcuts (Inspect, View Source, Save, Copy)
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // F12
+      if (e.key === 'F12') {
+        e.preventDefault();
+      }
+      // Ctrl+Shift+I (Inspect) or Ctrl+Shift+J (Console) or Ctrl+Shift+C (Element)
+      if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) {
+        e.preventDefault();
+      }
+      // Ctrl+U (View Source)
+      if (e.ctrlKey && e.key === 'u') {
+        e.preventDefault();
+      }
+      // Ctrl+S (Save)
+      if (e.ctrlKey && e.key === 's') {
+        e.preventDefault();
+      }
+    };
+
+    document.addEventListener('contextmenu', handleContextMenu);
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('contextmenu', handleContextMenu);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
   const handleLogin = (loggedInUser: User) => {
     setUser(loggedInUser);
     setView('dashboard');
@@ -111,16 +150,16 @@ const App: React.FC = () => {
   };
 
   const handlePaymentSuccess = () => {
-    // In a real app, update user orders here
     setTimeout(() => {
        setView('dashboard');
     }, 2000);
   };
 
   return (
-    <div className="min-h-screen w-full bg-black text-white overflow-x-hidden selection:bg-purple-500 selection:text-white">
+    <div className="min-h-screen w-full bg-slate-50 text-slate-900 overflow-x-hidden selection:bg-none select-none">
+      {/* 'select-none' class prevents text highlighting */}
       
-      {/* Navbar is visible on landing and dashboard (modified inside Navbar) */}
+      {/* Navbar is visible on landing and dashboard */}
       {view !== 'payment' && (
         <Navbar 
           user={user}
@@ -140,34 +179,51 @@ const App: React.FC = () => {
         onRegisterSuccess={handleLogin}
       />
 
+      {/* CHAT ASSISTANT - VISIBLE GLOBALLY */}
+      <ChatAssistant />
+
       {/* ROUTING */}
       {view === 'landing' && (
         <>
           <CreativeHero />
+
+          {/* NEW SECTION: Web Tools & CTA */}
+          <InteractiveToolsSection 
+            user={user} 
+            onRegisterClick={() => setAuthModal({ open: true, type: 'register' })}
+            onPricingClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
+          />
+          
+          {/* Hybrid Theme: Dark Section */}
           <Service3DCarousel />
+          
+          {/* Hybrid Theme: Light Section */}
           <ServicesGrid />
+          
+          {/* Hybrid Theme: Dark Section */}
           <VideoShowcase />
           
-          {/* Pricing Section Wrapper to pass props */}
-          <section id="pricing" className="py-24 bg-[#050505] border-t border-gray-900">
-             <div className="text-center max-w-7xl mx-auto px-4 mb-12">
-                <h2 className="text-3xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
+          {/* Pricing Section Wrapper (Light) */}
+          <section id="pricing" className="py-24 bg-white border-t border-slate-100 relative">
+             <div className="absolute inset-0 bg-slate-50/50 pointer-events-none" />
+             <div className="text-center max-w-7xl mx-auto px-4 mb-12 relative z-10">
+                <h2 className="text-3xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-600">
                   Paketler ve Fiyatlandırma
                 </h2>
-                <p className="text-gray-400">İşletmenize en uygun çözümü seçin, hemen başlayalım.</p>
+                <p className="text-slate-500 text-lg">İşletmenize en uygun çözümü seçin, hemen başlayalım.</p>
              </div>
              
              {/* Sticky Category Nav */}
-             <div className="sticky top-20 z-30 bg-black/90 backdrop-blur-md py-4 border-y border-white/5 mb-8">
+             <div className="sticky top-20 z-30 bg-white/80 backdrop-blur-md py-4 border-y border-slate-200 shadow-sm mb-8">
                  <div className="flex justify-start md:justify-center overflow-x-auto gap-4 px-4 pb-2 no-scrollbar">
                      {pricingData.map((cat) => (
                          <button 
                             key={cat.id} 
                             onClick={() => setActiveCategory(cat.id)}
-                            className={`px-6 py-2.5 rounded-full text-sm font-semibold border whitespace-nowrap transition-all
+                            className={`px-6 py-2.5 rounded-full text-sm font-semibold border whitespace-nowrap transition-all shadow-sm
                               ${activeCategory === cat.id 
-                                ? 'bg-purple-900/40 border-purple-500 text-white shadow-[0_0_15px_rgba(168,85,247,0.5)]' 
-                                : 'bg-transparent border-gray-800 text-gray-400 hover:border-gray-600'
+                                ? 'bg-slate-900 border-slate-900 text-white shadow-md transform scale-105' 
+                                : 'bg-white border-slate-200 text-slate-500 hover:border-slate-400 hover:text-slate-800'
                               }
                             `}
                          >
@@ -177,7 +233,7 @@ const App: React.FC = () => {
                  </div>
              </div>
 
-             <div className="max-w-7xl mx-auto px-4 md:px-6">
+             <div className="max-w-7xl mx-auto px-4 md:px-6 relative z-10">
                  {/* Render Active Category Table */}
                  {(() => {
                     const data = pricingData.find(d => d.id === activeCategory);
@@ -188,13 +244,15 @@ const App: React.FC = () => {
           </section>
           
           <TeamSection />
+          
+          {/* Hybrid Theme: Dark Section */}
           <ContactCTA />
 
           <footer className="bg-black border-t border-gray-900 py-12 px-4 text-center">
              <div className="flex justify-center items-center gap-2 mb-4">
-                <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-blue-500">MAGEROS</span>
+                <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500">MAGEROS</span>
              </div>
-             <p className="text-gray-500 text-sm">© 2024 Mageros Digital Agency. Tüm hakları saklıdır.</p>
+             <p className="text-gray-500 text-sm">© 2026 Mageros Digital Agency. Tüm hakları saklıdır.</p>
           </footer>
         </>
       )}

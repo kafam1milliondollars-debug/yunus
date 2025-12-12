@@ -10,18 +10,18 @@ export const pricingData: CategoryData[] = [
     packages: [
       { name: 'Kurumsal', price: '₺19.000', period: '/tek sefer', isPopular: false },
       { name: 'Profesyonel', price: '₺39.000', period: '/tek sefer', isPopular: true, highlightColor: 'blue' },
-      { name: 'Premium & Özel', price: '₺59.000', period: '/tek sefer', isPopular: false },
+      { name: 'Premium & Özel', price: 'FİYAT AL', period: '/tek sefer', isPopular: false },
     ],
     features: [
       { name: 'Domain (Alan Adı) & Hosting', values: ['1 Yıl Hediye', '1 Yıl Hediye', '2 Yıl Hediye (VPS)'] },
       { name: 'Arayüz Tasarımı (UI/UX)', values: ['Modern Şablon', 'Özel Tasarım', 'Kişiye Özel Premium UI'] },
       { name: 'Mobil Uyumluluk (Responsive)', values: [true, true, true] },
       { name: 'Yönetim Paneli (CMS)', values: ['Standart', 'Gelişmiş', 'Özel Yazılım Panel'] },
-      { name: 'Sayfa Sayısı', values: ['5 Sayfaya Kadar', '15 Sayfaya Kadar', 'Sınırsız'] },
+      { name: 'Sayfa Sayısı', values: ['5 Sayfaya Kadar', '10 Sayfaya Kadar', 'Sınırsız'] },
       { name: 'SEO Altyapı Kurulumu', values: ['Temel', 'Kapsamlı', 'İleri Düzey + Schema'] },
-      { name: 'Kurumsal E-Posta Kurulumu', values: ['5 Adet', '20 Adet', 'Sınırsız'] },
+      { name: 'Kurumsal E-Posta Kurulumu', values: ['1 Adet', '5 Adet', 'Bilgi Al'] },
       { name: 'İletişim & WhatsApp Modülü', values: [true, true, true] },
-      { name: 'Çoklu Dil Desteği', values: [false, '2 Dil', 'Sınırsız Dil'] },
+      { name: 'Çoklu Dil Desteği', values: [false, '2 Dil', 'Bilgi Al'] },
       { name: 'Blog / Haberler Modülü', values: [false, true, true] },
       { name: 'Google Haritalar Kaydı', values: [true, true, true] },
       { name: 'Teknik Destek & Bakım', values: ['1 Ay', '6 Ay', '1 Yıl VIP'] },
@@ -33,17 +33,17 @@ export const pricingData: CategoryData[] = [
     icon: 'shopping_cart',
     shortDesc: 'Ürünlerinizi 7/24 satabileceğiniz, güvenli ödeme altyapısına sahip güçlü e-ticaret mağazaları kuruyoruz.',
     packages: [
-      { name: 'Girişimci', price: '₺39.000', period: '/yıllık', isPopular: false },
-      { name: 'Büyüme', price: '₺79.000', period: '/yıllık', isPopular: true, highlightColor: 'purple' },
-      { name: 'Global Marka', price: '₺99.000', period: '/yıllık', isPopular: false },
+      { name: 'Girişimci', price: '₺49.000', period: '/yıllık', isPopular: false },
+      { name: 'Büyüme', price: '₺89.000', period: '/yıllık', isPopular: true, highlightColor: 'purple' },
+      { name: 'Global ', price: 'Fiyat Al', period: '/yıllık', isPopular: false },
     ],
     features: [
-      { name: 'Altyapı & Kurulum', values: ['Hazır Sistem', 'WooCommerce / Shopify', 'Özel / T-Soft / İkas'] },
+      { name: 'Altyapı & Kurulum', values: ['Hazır Sistem', 'WooCommerce / Shopify', 'Özel / İdeasoft / İkas'] },
       { name: 'Tasarım Özelleştirme', values: ['Logo & Renkler', 'Kategori & Bannerlar', 'Full Konsept Tasarım'] },
       { name: 'Sanal POS (Ödeme) Entegrasyonu', values: ['iyzico/PayTR', 'Tüm Bankalar', 'Global (Stripe vb.)'] },
       { name: 'Kargo & Lojistik Entegrasyonu', values: [true, true, true] },
       { name: 'Ürün Yükleme Desteği', values: ['50 Ürün', '250 Ürün', 'Sınırsız / XML'] },
-      { name: 'Pazaryeri Entegrasyonu (Trendyol vb.)', values: [false, '2 Mağaza', 'Tüm Pazaryerleri'] },
+      { name: 'Pazaryeri Entegrasyonu (Trendyol vb.)', values: [false, '2 Mağaza', '5 Mağaza'] },
       { name: 'Stok & Sipariş Yönetimi', values: ['Manuel', 'Otomatik Panel', 'Gelişmiş ERP Bağlantısı'] },
       { name: 'Hediye Çeki & Promosyon Modülü', values: [true, true, true] },
       { name: 'Üyelik & Müşteri Paneli', values: [true, true, true] },
@@ -58,9 +58,9 @@ export const pricingData: CategoryData[] = [
     icon: 'public',
     shortDesc: 'Sınırları kaldırın. Ürünlerinizi döviz ile dünyaya satmanız için gerekli tüm altyapı ve danışmanlığı sağlıyoruz.',
     packages: [
-      { name: 'Mikro İhracat', price: '89.000', period: '/proje', isPopular: false },
-      { name: 'Global Oyuncu', price: '149.000', period: '/proje', isPopular: true, highlightColor: 'pink' },
-      { name: 'Uluslararası Marka', price: 'FİYAT AL', period: '/proje', isPopular: false },
+      { name: 'Mikro İhracat', price: '149.000', period: '/proje', isPopular: false },
+      { name: 'Global ', price: '199.000', period: '/proje', isPopular: true, highlightColor: 'pink' },
+      { name: 'Export', price: 'FİYAT AL', period: '/proje', isPopular: false },
     ],
     features: [
       { name: 'Hedef Pazar Analizi', values: ['Bölgesel', 'Kıtasal', 'Global'] },
@@ -74,14 +74,56 @@ export const pricingData: CategoryData[] = [
     ]
   },
   {
+    id: 'pazaryeri-entegrasyon',
+    label: 'Pazaryeri Entegrasyon',
+    icon: 'hub',
+    shortDesc: 'Trendyol, Hepsiburada, N11 ve Amazon mağazalarınızı tek panelden yönetin. Stok, fiyat ve sipariş süreçlerini otomatikleştirin.',
+    packages: [
+      { name: 'Başlangıç', price: '₺29.000', period: '/yıllık', isPopular: false },
+      { name: 'Tam Otomasyon', price: '₺49.000', period: '/yıllık', isPopular: true, highlightColor: 'blue' },
+      { name: 'Global Entegratör', price: 'Fiyat Al', period: '/yıllık', isPopular: false },
+    ],
+    features: [
+      { name: 'Desteklenen Pazaryerleri', values: ['Trendyol + 1 Seçim', 'Trendyol, HB, N11', 'Tüm Yerli + Amazon TR'] },
+      { name: 'Stok & Fiyat Senkronizasyonu', values: ['15 Dakika', 'Anlık (Real-time)', 'Anlık + Global Kur'] },
+      { name: 'Otomatik Faturalandırma (E-Fatura)', values: [false, true, true] },
+      { name: 'Kargo Barkodu Oluşturma', values: ['Manuel Tetikleme', 'Otomatik', 'Otomatik + Takip'] },
+      { name: 'Buybox (Rekabet) Analizi', values: [false, 'Temel Analiz', 'Akıllı Oto-Fiyat Motoru'] },
+      { name: 'Toplu Ürün Yükleme (XML)', values: [true, true, true] },
+      { name: 'Tek Ekrandan Sipariş Yönetimi', values: [true, true, true] },
+      { name: 'Müşteri Soruları & Mesajlaşma', values: [false, true, true] },
+    ]
+  },
+  {
+    id: 'veritabani',
+    label: 'Veritabanı & DBA',
+    icon: 'storage',
+    shortDesc: 'Verilerinizi güvenle saklayın. SQL ve NoSQL veritabanlarınız için kurulum, bakım, yedekleme ve performans optimizasyonu.',
+    packages: [
+      { name: 'Startup DB', price: '₺39.000', period: '/ay', isPopular: false },
+      { name: 'Enterprise DBA', price: '₺59.000', period: '/ay', isPopular: true, highlightColor: 'blue' },
+      { name: 'High Availability', price: 'Fiyat Al', period: '/proje', isPopular: false },
+    ],
+    features: [
+      { name: 'Kurulum & Yapılandırma', values: ['Tek Sunucu', 'Master-Slave', 'Cluster Yapısı'] },
+      { name: 'Veritabanı Türleri', values: ['MySQL/PostgreSQL', 'SQL + NoSQL', 'Tüm Platformlar'] },
+      { name: 'Yedekleme (Backup) Stratejisi', values: ['Günlük', 'Anlık (PITR)', 'Geo-Redundant'] },
+      { name: 'Performans Tuning', values: ['Temel İndeks', 'Sorgu Analizi', 'Derinlemesine Tuning'] },
+      { name: '7/24 İzleme & Alarm', values: [false, true, true] },
+      { name: 'Güvenlik & Audit', values: ['Temel', 'Gelişmiş', 'KVKK/GDPR Uyumlu'] },
+      { name: 'Veri Göçü (Migration)', values: [false, 'Dahil', 'Dahil'] },
+      { name: 'Disaster Recovery (Felaket Kurtarma)', values: [false, false, true] },
+    ]
+  },
+  {
     id: 'dijital-pazarlama',
     label: 'Dijital Pazarlama',
     icon: 'campaign',
     shortDesc: 'Doğru hedef kitleye, doğru zamanda ulaşın. Sosyal medya ve Google reklamları ile satışlarınızı artırın.',
     packages: [
-      { name: 'Start', price: '₺15.000', period: '/ay', isPopular: false },
-      { name: 'Scale-Up', price: '₺25.000', period: '/ay', isPopular: true, highlightColor: 'blue' },
-      { name: 'Dominance', price: '₺40.000', period: '/ay', isPopular: false },
+      { name: 'Start', price: '₺29.000', period: '/ay', isPopular: false },
+      { name: 'Scale', price: '₺59.000', period: '/ay', isPopular: true, highlightColor: 'blue' },
+      { name: 'Premium', price: 'Fiyat Al', period: '/ay', isPopular: false },
     ],
     features: [
       { name: 'Sosyal Medya Yönetimi', values: ['2 Platform', '3 Platform', '5 Platform'] },
@@ -100,9 +142,9 @@ export const pricingData: CategoryData[] = [
     icon: 'search',
     shortDesc: 'Google\'da ilk sayfada olun. Organik trafiğinizi artırarak reklam maliyetlerinizi düşürün.',
     packages: [
-      { name: 'Yerel SEO', price: '₺10.000', period: '/ay', isPopular: false },
-      { name: 'Ulusal SEO', price: '₺19.000', period: '/ay', isPopular: true, highlightColor: 'purple' },
-      { name: 'Kurumsal SEO', price: '₺25.000', period: '/ay', isPopular: false },
+      { name: 'Scale SEO', price: '₺19.000', period: '/ay', isPopular: false },
+      { name: 'Expert  SEO', price: '₺39.000', period: '/ay', isPopular: true, highlightColor: 'purple' },
+      { name: 'Pro  SEO', price: '₺Fiyat Al', period: '/ay', isPopular: false },
     ],
     features: [
       { name: 'Site İçi (On-Page) Optimizasyon', values: [true, true, true] },
@@ -131,7 +173,7 @@ export const pricingData: CategoryData[] = [
       { name: 'Dijital Dönüşüm Stratejisi', values: [false, true, true] },
       { name: 'Marka Konumlandırma', values: ['Yüzeysel', 'Detaylı', 'Full Strateji'] },
       { name: 'Bütçe & Kaynak Yönetimi', values: [false, true, true] },
-      { name: 'Ekip Kurulumu & Eğitimi', values: [false, 'Yönlendirme', 'İşe Alım Desteği'] },
+      { name: 'Ekip Eğitimi', values: [false, 'Yönlendirme', 'Uzaktan'] },
       { name: 'Kriz Yönetimi Danışmanlığı', values: [false, true, true] },
       { name: 'Haftalık İlerleme Toplantıları', values: [false, 'Online', 'Online/Yüz Yüze'] },
     ]
@@ -144,7 +186,7 @@ export const pricingData: CategoryData[] = [
     packages: [
       { name: 'Video Eğitim', price: '₺10.000', period: '/paket', isPopular: false },
       { name: 'Bootcamp', price: '₺20.000', period: '/6 hafta', isPopular: true, highlightColor: 'blue' },
-      { name: 'Birebir Eğitim', price: '₺30.000', period: '/kişi', isPopular: false },
+      { name: 'Birebir Eğitim', price: 'Fiyat Al', period: '/kişi', isPopular: false },
     ],
     features: [
       { name: 'Eğitim Kapsamı', values: ['Temel Seviye', 'İleri Seviye', 'Masterclass'] },
@@ -152,7 +194,7 @@ export const pricingData: CategoryData[] = [
       { name: 'Uygulamalı Atölye Çalışmaları', values: [false, true, true] },
       { name: 'Soru-Cevap & Mentorluk', values: ['Topluluk Grubu', 'Haftalık Canlı', '7/24 Birebir'] },
       { name: 'Doküman & Kaynak Kütüphanesi', values: [true, true, true] },
-      { name: 'Bitirme Sertifikası', values: ['Dijital', 'Basılı & Dijital', 'Uluslararası Geçerli'] },
+      { name: 'Bitirme Sertifikası', values: ['Dijital', 'Basılı & Dijital', 'Özel'] },
       { name: 'Kariyer & Staj Desteği', values: [false, true, true] },
     ]
   },
@@ -162,9 +204,9 @@ export const pricingData: CategoryData[] = [
     icon: 'palette',
     shortDesc: 'Akılda kalıcı bir marka yaratın. Logo, renk paleti ve tüm kurumsal materyalleriniz bir bütün olsun.',
     packages: [
-      { name: 'Startup', price: '₺10.000', period: '/tek sefer', isPopular: false },
-      { name: 'Prestij', price: '₺20.000', period: '/tek sefer', isPopular: true, highlightColor: 'purple' },
-      { name: 'Marka İnşası', price: '₺40.000', period: '/tek sefer', isPopular: false },
+      { name: 'Startup', price: '₺15.000', period: '/tek sefer', isPopular: false },
+      { name: 'Prestij', price: '₺30.000', period: '/tek sefer', isPopular: true, highlightColor: 'purple' },
+      { name: 'Marka İnşası', price: '₺Fiyat Al', period: '/tek sefer', isPopular: false },
     ],
     features: [
       { name: 'Logo Tasarımı', values: ['2 Alternatif', '3 Alternatif', '5 Alternatif'] },
@@ -206,7 +248,7 @@ export const pricingData: CategoryData[] = [
     packages: [
       { name: 'Ürün Çekimi', price: '₺25.000', period: '/gün', isPopular: false },
       { name: 'Konsept', price: '₺42.000', period: '/gün', isPopular: true, highlightColor: 'blue' },
-      { name: 'Katalog', price: '₺75.000', period: '/gün', isPopular: false },
+      { name: 'Katalog', price: '₺Fiyat Al', period: '/gün', isPopular: false },
     ],
     features: [
       { name: 'Çekim Türü', values: ['Beyaz Fon (E-Ticaret)', 'Styling & Konsept', 'Mekan & Model'] },
@@ -224,9 +266,9 @@ export const pricingData: CategoryData[] = [
     icon: 'movie',
     shortDesc: 'Hikayenizi videoya dönüştürüyoruz. Reklam, tanıtım ve sosyal medya içerikleri için profesyonel prodüksiyon.',
     packages: [
-      { name: 'Reels Paket', price: '₺12.000', period: '/proje', isPopular: false },
-      { name: 'Tanıtım Filmi', price: '₺30.000', period: '/proje', isPopular: true, highlightColor: 'purple' },
-      { name: 'Reklam Filmi', price: '₺75.000', period: '/proje', isPopular: false },
+      { name: 'Reels Paket', price: '₺40.000', period: '/proje', isPopular: false },
+      { name: 'Tanıtım Filmi', price: '₺70.000', period: '/proje', isPopular: true, highlightColor: 'purple' },
+      { name: 'Reklam Filmi', price: '₺Fiyat Al', period: '/proje', isPopular: false },
     ],
     features: [
       { name: 'Çekim Süresi', values: ['Yarım Gün', '1 Tam Gün', '2+ Gün'] },
